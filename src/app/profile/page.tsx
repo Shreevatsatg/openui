@@ -102,8 +102,14 @@ export default async function ProfilePage() {
                                      )}
                                  </CardTitle>
                              </CardHeader>
-                             <CardFooter className="mt-auto pt-4 text-xs text-muted-foreground">
-                                 Submitted on {new Date(comp.createdAt).toLocaleDateString()}
+                            <CardFooter className="mt-auto pt-4 text-xs text-muted-foreground flex justify-between items-center">
+                                 <span>Submitted on {new Date(comp.createdAt).toLocaleDateString()}</span>
+                                 <Link 
+                                    href={`/edit/${comp._id.toString()}`} 
+                                    className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
+                                 >
+                                    Edit
+                                 </Link>
                              </CardFooter>
                          </Card>
                      ))}

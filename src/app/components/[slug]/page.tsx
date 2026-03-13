@@ -7,11 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const dynamic = "force-dynamic";
 
 export default async function ComponentDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const session = await getServerSession(authOptions);
   await connectDB();
 
   const component = await Component.findOne({ slug, status: "approved" })
@@ -33,10 +36,20 @@ export default async function ComponentDetailPage({ params }: { params: Promise<
           <span className="text-foreground">{component.title}</span>
         </div>
         
-        <h1 className="text-4xl font-bold tracking-tight">{component.title}</h1>
-        <p className="text-lg text-muted-foreground w-full">
-            {component.description}
-        </p>
+        <div className="flex justify-between items-start gap-4">
+           <div>
+               <h1 className="text-4xl font-bold tracking-tight">{component.title}</h1>
+               <p className="text-lg text-muted-foreground mt-2 w-full">
+                   {component.description}
+               </p>
+           </div>
+           
+           {(session?.user?.role === "admin" || session?.user?.id === component.authorId._id.toString()) && (
+               <Button asChild variant="outline">
+                   <Link href={`/edit/${component._id}`}>Edit Component</Link>
+               </Button>
+           )}
+        </div>
       </div>
 
       <div className="space-y-12">

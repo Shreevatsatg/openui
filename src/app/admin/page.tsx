@@ -41,6 +41,21 @@ export default async function AdminDashboardPage() {
       createdAt: sub.createdAt.toISOString()
   }));
 
+  const approvedSubmissions = await Component.find({ status: "approved" })
+     .populate("authorId", "name", User)
+     .sort({ createdAt: -1 })
+     .lean();
+
+  const serializedApproved = approvedSubmissions.map(sub => ({
+      _id: sub._id.toString(),
+      title: sub.title,
+      description: sub.description,
+      category: sub.category,
+      code: sub.code,
+      author: sub.authorId ? (sub.authorId as any).name : "Unknown",
+      createdAt: sub.createdAt.toISOString()
+  }));
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
        <div className="flex items-center gap-3 mb-8">
@@ -74,7 +89,7 @@ export default async function AdminDashboardPage() {
            </Card>
        </div>
 
-       <div>
+       <div className="mb-12">
            <h2 className="text-2xl font-bold mb-6">Pending Submissions</h2>
            {serializedSubmissions.length === 0 ? (
                <div className="text-center p-12 border border-dashed rounded-lg text-muted-foreground">
@@ -82,6 +97,17 @@ export default async function AdminDashboardPage() {
                </div>
            ) : (
                <AdminSubmissionList submissions={serializedSubmissions} />
+           )}
+       </div>
+
+       <div>
+           <h2 className="text-2xl font-bold mb-6">Approved Components Catalog</h2>
+           {serializedApproved.length === 0 ? (
+               <div className="text-center p-12 border border-dashed rounded-lg text-muted-foreground">
+                   No components have been approved yet.
+               </div>
+           ) : (
+               <AdminSubmissionList submissions={serializedApproved} isApproved={true} />
            )}
        </div>
     </div>

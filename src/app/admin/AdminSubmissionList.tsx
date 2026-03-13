@@ -16,7 +16,7 @@ type Submission = {
   createdAt: string;
 };
 
-export function AdminSubmissionList({ submissions }: { submissions: Submission[] }) {
+export function AdminSubmissionList({ submissions, isApproved = false }: { submissions: Submission[], isApproved?: boolean }) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -62,15 +62,24 @@ export function AdminSubmissionList({ submissions }: { submissions: Submission[]
                   disabled={loadingId === sub._id}
                   onClick={() => handleAction(sub._id, "reject")}
                 >
-                  Reject
+                  {isApproved ? "Revoke" : "Reject"}
                 </Button>
                 <Button
+                  variant="outline"
                   size="sm"
-                  disabled={loadingId === sub._id}
-                  onClick={() => handleAction(sub._id, "approve")}
+                  onClick={() => router.push(`/edit/${sub._id}`)}
                 >
-                  Approve
+                  Edit
                 </Button>
+                {!isApproved && (
+                  <Button
+                    size="sm"
+                    disabled={loadingId === sub._id}
+                    onClick={() => handleAction(sub._id, "approve")}
+                  >
+                    Approve
+                  </Button>
+                )}
               </div>
             </div>
             <CardDescription className="mt-2 text-base text-foreground">
