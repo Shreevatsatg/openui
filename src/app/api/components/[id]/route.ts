@@ -46,6 +46,11 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
     if (previewImage !== undefined) component.previewImage = previewImage;
 
+    // If the user updating is NOT an admin, revert status to pending
+    if (session.user.role !== "admin") {
+      component.status = "pending";
+    }
+
     await component.save();
 
     return NextResponse.json({ message: "Component updated successfully", component }, { status: 200 });

@@ -10,20 +10,20 @@ export default function Home() {
       <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24 bg-gradient-to-b from-background to-background/50 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
         <div className="absolute left-1/2 top-1/2 -ml-[40rem] -mt-[25rem] h-[50rem] w-[80rem] bg-primary/20 opacity-20 blur-[120px] rounded-full point-events-none" />
-        
+
         <div className="relative z-10 max-w-4xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             <Zap className="h-4 w-4" />
             <span>OpenUI v1.0 is now live</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight">
-            Build faster with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-400">OpenUI</span>
+            Build faster with <span className="text-foreground bg-clip-text bg-gradient-to-r from-primary to-indigo-400">OpenUI</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             A community-driven React component library. Browse, preview, copy, and submit reusable beautiful components tailored for modern web apps.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Button asChild size="lg" className="h-12 px-8 text-base">
+            <Button asChild size="lg" className="h-12 px-8 text-background">
               <Link href="/components">
                 Browse Components <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
@@ -59,7 +59,7 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
-            
+
             <Card className="bg-background/50 backdrop-blur-sm border-border/50 group hover:border-primary/50 transition-colors">
               <CardHeader>
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
@@ -71,7 +71,7 @@ export default function Home() {
                 </CardDescription>
               </CardHeader>
             </Card>
-            
+
             <Card className="bg-background/50 backdrop-blur-sm border-border/50 group hover:border-primary/50 transition-colors">
               <CardHeader>
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
@@ -101,21 +101,21 @@ export default function Home() {
               </div>
               <div className="flex-shrink-0">
                 <Button asChild size="lg" className="h-12 px-8">
-                  <Link href="/signup">Create an Account</Link>
+                  <Link className="text-background" href="/signup">Create an Account</Link>
                 </Button>
               </div>
             </CardContent>
           </Card>
         </div>
       </section>
-      
+
       {/* Simple Footer */}
       <footer className="border-t border-border/50 py-8 px-4 text-center text-muted-foreground flex flex-col md:flex-row items-center justify-center gap-4">
         <span>© {new Date().getFullYear()} OpenUI. All rights reserved.</span>
         <div className="flex gap-4 items-center">
-            <Link href="https://github.com" target="_blank" className="hover:text-foreground">
-                <Github className="h-5 w-5" />
-            </Link>
+          <Link href="https://github.com" target="_blank" className="hover:text-foreground">
+            <Github className="h-5 w-5" />
+          </Link>
         </div>
       </footer>
     </div>

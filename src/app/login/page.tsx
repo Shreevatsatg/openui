@@ -85,7 +85,7 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full text-background" disabled={loading}>
               {loading ? "Signing in..." : "Sign in"}
             </Button>
           </form>

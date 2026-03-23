@@ -10,7 +10,14 @@ import { MiniLivePreview } from "@/components/MiniLivePreview";
 // Force absolute dynamic rendering since components change often
 export const dynamic = "force-dynamic";
 
-export default function ComponentsPage() {
+export default async function ComponentsPage(
+  props: {
+    searchParams?: Promise<{ search?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const search = searchParams?.search || '';
+
   return (
     <div className="py-12 px-8 max-w-5xl">
       <div className="mb-10">
@@ -20,17 +27,22 @@ export default function ComponentsPage() {
         </p>
       </div>
 
-      <ComponentList />
+      <ComponentList search={search} />
     </div>
   );
 }
 
-async function ComponentList() {
+async function ComponentList({ search }: { search: string }) {
   await connectDB();
   
   // Only show approved components
+  let query: any = { status: "approved" };
+  if (search) {
+    query.title = { $regex: search, $options: "i" };
+  }
+
   // Populate the author data
-  const components = await Component.find({ status: "approved" })
+  const components = await Component.find(query)
     .populate("authorId", "name", User)
     .sort({ createdAt: -1 })
     .lean();

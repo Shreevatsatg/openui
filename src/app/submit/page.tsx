@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default function SubmitPage() {
   const router = useRouter();
   const { user } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -19,7 +19,7 @@ export default function SubmitPage() {
     code: "",
     previewImage: "",
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
@@ -78,11 +78,10 @@ export default function SubmitPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {message.text && (
               <div
-                className={`p-4 rounded-md text-sm border ${
-                  message.type === "error"
-                    ? "bg-destructive/10 text-destructive border-destructive/20"
-                    : "bg-green-500/10 text-green-500 border-green-500/20"
-                }`}
+                className={`p-4 rounded-md text-sm border ${message.type === "error"
+                  ? "bg-destructive/10 text-destructive border-destructive/20"
+                  : "bg-green-500/10 text-green-500 border-green-500/20"
+                  }`}
               >
                 {message.text}
               </div>
@@ -141,7 +140,7 @@ export default function SubmitPage() {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-medium" htmlFor="previewImage">Preview Image URL (Optional)</label>
               <Input
@@ -172,7 +171,7 @@ export default function SubmitPage() {
             </div>
 
             <div className="flex justify-end pt-4 border-t">
-              <Button type="submit" size="lg" disabled={loading} className="w-full md:w-auto">
+              <Button type="submit" size="lg" disabled={loading} className="w-full md:w-auto text-background">
                 {loading ? "Submitting..." : "Submit Component"}
               </Button>
             </div>

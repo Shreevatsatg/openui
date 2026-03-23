@@ -16,7 +16,7 @@ type Submission = {
   createdAt: string;
 };
 
-export function AdminSubmissionList({ submissions, isApproved = false }: { submissions: Submission[], isApproved?: boolean }) {
+export function AdminSubmissionList({ submissions, status = "pending" }: { submissions: Submission[], status?: "pending" | "approved" | "rejected" }) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -56,14 +56,16 @@ export function AdminSubmissionList({ submissions, isApproved = false }: { submi
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  disabled={loadingId === sub._id}
-                  onClick={() => handleAction(sub._id, "reject")}
-                >
-                  {isApproved ? "Revoke" : "Reject"}
-                </Button>
+                {status !== "rejected" && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={loadingId === sub._id}
+                    onClick={() => handleAction(sub._id, "reject")}
+                  >
+                    {status === "approved" ? "Revoke" : "Reject"}
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   size="sm"
@@ -71,7 +73,7 @@ export function AdminSubmissionList({ submissions, isApproved = false }: { submi
                 >
                   Edit
                 </Button>
-                {!isApproved && (
+                {status !== "approved" && (
                   <Button
                     size="sm"
                     disabled={loadingId === sub._id}

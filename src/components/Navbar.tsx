@@ -4,9 +4,23 @@ import Link from "next/link";
 import { useAuth } from "./AuthProvider";
 import { signOut } from "next-auth/react";
 import { Code2, LogOut, PlusCircle, Search, User as UserIcon } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function Navbar() {
   const { user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/components?search=${encodeURIComponent(searchQuery)}`);
+    } else {
+      router.push(`/components`);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background backdrop-blur supports-[backdrop-filter]:bg-background">
@@ -27,24 +41,22 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex relative">
+          <form onSubmit={handleSearch} className="hidden md:flex relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <input
               type="search"
               placeholder="Search components..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="h-9 w-64 rounded-md border border-input bg-background pl-9 pr-4 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary"
             />
-          </div>
+          </form>
+
+          <ThemeToggle />
 
           {user ? (
             <div className="flex items-center gap-4">
-              <Link
-                href="/submit"
-                className="hidden md:flex items-center gap-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md transition-colors"
-              >
-                <PlusCircle className="h-4 w-4" />
-                <span>Submit</span>
-              </Link>
+
               {user.role === "admin" && (
                 <Link href="/admin" className="text-sm font-medium text-muted-foreground hover:text-foreground">
                   Admin
@@ -53,12 +65,6 @@ export function Navbar() {
               <Link href="/profile" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                 <UserIcon className="h-4 w-4" />
               </Link>
-              <button
-                onClick={() => signOut()}
-                className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <LogOut className="h-4 w-4" />
-              </button>
             </div>
           ) : (
             <div className="flex items-center gap-4">
@@ -67,7 +73,7 @@ export function Navbar() {
               </Link>
               <Link
                 href="/signup"
-                className="text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md transition-colors"
+                className="text-sm font-medium bg-primary text-background hover:bg-primary/90 px-4 py-2 rounded-md transition-colors"
               >
                 Sign up
               </Link>

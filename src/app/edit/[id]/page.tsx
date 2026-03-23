@@ -13,7 +13,7 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
   const { id } = use(params);
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -22,7 +22,7 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
     code: "",
     previewImage: "",
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -33,7 +33,7 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
         const res = await fetch(`/api/components/${id}/raw`);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        
+
         // Populate the form
         setFormData({
           title: data.component.title || "",
@@ -49,9 +49,9 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
         setFetching(false);
       }
     }
-    
+
     if (!authLoading && user) {
-        fetchComponent();
+      fetchComponent();
     }
   }, [id, authLoading, user]);
 
@@ -98,8 +98,8 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
   return (
     <div className="container mx-auto py-12 px-4 max-w-4xl">
       <Button variant="ghost" className="mb-6 -ml-4" onClick={() => router.back()}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
       </Button>
 
       <Card className="shadow-lg border-border/50">
@@ -113,11 +113,10 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
           <form onSubmit={handleSubmit} className="space-y-6">
             {message.text && (
               <div
-                className={`p-4 rounded-md text-sm border ${
-                  message.type === "error"
-                    ? "bg-destructive/10 text-destructive border-destructive/20"
-                    : "bg-green-500/10 text-green-500 border-green-500/20"
-                }`}
+                className={`p-4 rounded-md text-sm border ${message.type === "error"
+                  ? "bg-destructive/10 text-destructive border-destructive/20"
+                  : "bg-green-500/10 text-green-500 border-green-500/20"
+                  }`}
               >
                 {message.text}
               </div>
@@ -176,7 +175,7 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
                 onChange={handleChange}
               />
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-medium" htmlFor="previewImage">Preview Image URL (Optional)</label>
               <Input
@@ -204,7 +203,7 @@ export default function EditComponentPage({ params }: { params: Promise<{ id: st
             </div>
 
             <div className="flex justify-end pt-4 border-t border-border/50">
-              <Button type="submit" size="lg" disabled={loading} className="w-full md:w-auto">
+              <Button type="submit" size="lg" disabled={loading} className="w-full md:w-auto text-background">
                 {loading ? "Saving..." : "Save Changes"}
               </Button>
             </div>
