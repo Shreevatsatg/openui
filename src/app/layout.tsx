@@ -29,15 +29,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
       <head>
-        <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
-        <Script id="tailwind-config" strategy="beforeInteractive">
-          {`
-            tailwind.config = {
-              darkMode: 'class',
-              corePlugins: { preflight: false }
-            }
-          `}
-        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background text-foreground font-sans antialiased flex flex-col`}
