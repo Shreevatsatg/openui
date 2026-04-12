@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { useAuth } from '../context/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Link, useNavigate } from 'react-router-dom';
-import { User as UserIcon, Settings, LayoutGrid, PlusCircle } from 'lucide-react';
+import { User as UserIcon, LayoutGrid, PlusCircle } from 'lucide-react';
 
 const LogoutButton = () => {
     const { logout } = useAuth();

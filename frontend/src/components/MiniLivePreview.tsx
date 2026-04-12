@@ -1,7 +1,4 @@
-
-import React, { useMemo } from "react";
 import { LiveProvider, LivePreview as ReactLivePreview } from "react-live";
-import { transform } from "@babel/standalone";
 
 interface MiniLivePreviewProps {
   code: string;

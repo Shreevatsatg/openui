@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '@/lib/api';
 import { motion } from 'framer-motion';
@@ -7,10 +7,10 @@ const CreateProfile = () => {
   const [bio, setBio] = useState('');
   const [github, setGithub] = useState('');
   const [error, setError] = useState('');
-  const { user, updateUser } = useAuth();
+  const { updateUser } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleCreateProfile = async (e: React.FormEvent) => {
+  const handleCreateProfile = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {

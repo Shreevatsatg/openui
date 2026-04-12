@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { LiveProvider, LiveError, LivePreview as ReactLivePreview } from "react-live";
 import { Highlight, themes } from "prism-react-renderer";
 import { Check, Clipboard, Play } from "lucide-react";
