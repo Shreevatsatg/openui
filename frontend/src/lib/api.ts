@@ -1,8 +1,9 @@
 import axios from "axios";
+import { BACKEND_URL } from "@/lib/env";
 
-/** Empty baseURL uses the Vite dev proxy (`/api` → backend). Set VITE_API_URL when the API is on another origin. */
+/** Uses `BACKEND_URL` from `frontend/.env` (`VITE_API_URL`). Empty uses same-origin / Vite dev proxy. */
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? "",
+  baseURL: BACKEND_URL,
   headers: { "Content-Type": "application/json" },
 });
 
