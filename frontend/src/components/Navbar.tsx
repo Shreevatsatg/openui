@@ -113,11 +113,7 @@ export function Navbar() {
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border/60 hover:bg-muted/80 hover:border-border transition-colors"
                 title="Profile"
               >
-                {user.avatarUrl ? (
-                  <img src={user.avatarUrl} alt="avatar" className="w-full h-full rounded-full object-cover" />
-                ) : (
                   <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
-                )}
               </Link>
             </div>
           ) : (
