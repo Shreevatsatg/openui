@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -6,17 +6,46 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/lib/api";
 import { COMPONENT_CATEGORY_OPTIONS } from "@/lib/componentCategories";
+import { Highlight, themes } from "prism-react-renderer";
+import { Eye, EyeOff } from "lucide-react";
+import { LivePreviewSandbox } from "@/components/LivePreview";
+
+const BOILERPLATE = `export function MyComponent() {
+  return (
+    <div className="rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm">
+      <h3 className="text-lg font-semibold">My Component</h3>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Edit this to build your component.
+      </p>
+      <button className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition">
+        Action
+      </button>
+    </div>
+  );
+}
+
+render(<MyComponent />);`;
 
 export default function SubmitPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    title: "", description: "", category: "", tags: "", code: "", previewImage: "", themeSupport: "both",
+    title: "", description: "", category: "", tags: "", code: BOILERPLATE, previewImage: "", themeSupport: "both",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [showPreview, setShowPreview] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
 
   if (!user) return null;
+
+  const syncScroll = () => {
+    if (textareaRef.current && preRef.current) {
+      preRef.current.scrollTop = textareaRef.current.scrollTop;
+      preRef.current.scrollLeft = textareaRef.current.scrollLeft;
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,7 +70,7 @@ export default function SubmitPage() {
   const categories = COMPONENT_CATEGORY_OPTIONS;
 
   return (
-    <div className="container mx-auto py-12 px-4 max-w-4xl">
+    <div className={`container mx-auto py-12 px-4 ${showPreview ? "max-w-none" : "max-w-4xl"}`}>
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-3xl font-bold">Submit a Component</CardTitle>
@@ -102,8 +131,54 @@ export default function SubmitPage() {
               </p>
             </div>
             <div className="space-y-2">
-                <label className="text-sm font-medium">Code</label>
-                <textarea name="code" rows={10} value={formData.code} onChange={handleChange} required className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono focus-visible:ring-1 focus-visible:ring-primary outline-none"/>
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium">Code</label>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground">Must use <code className="bg-muted px-1 rounded">export function</code> + <code className="bg-muted px-1 rounded">render()</code></span>
+                    <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(p => !p)} className="h-7 px-2 text-xs gap-1">
+                      {showPreview ? <><EyeOff className="h-3.5 w-3.5" /> Hide Preview</> : <><Eye className="h-3.5 w-3.5" /> Preview</>}
+                    </Button>
+                  </div>
+                </div>
+                <div className={`flex gap-4 ${showPreview ? "items-start" : ""}`}>
+                  <div className="relative flex-1 rounded-md border border-input overflow-hidden bg-[#1E1E1E]" style={{ minHeight: "300px" }}>
+                    <Highlight theme={themes.vsDark} code={formData.code || " "} language="tsx">
+                      {({ tokens, getLineProps, getTokenProps }) => (
+                        <pre
+                          ref={preRef}
+                          aria-hidden
+                          className="absolute inset-0 p-3 text-sm font-mono m-0 overflow-auto pointer-events-none whitespace-pre"
+                          style={{ background: "transparent", color: "inherit" }}
+                        >
+                          {tokens.map((line, i) => (
+                            <div key={i} {...getLineProps({ line })}>
+                              <span className="inline-block w-8 text-right opacity-30 select-none mr-4 text-xs">{i + 1}</span>
+                              {line.map((token, key) => (
+                                <span key={key} {...getTokenProps({ token })} />
+                              ))}
+                            </div>
+                          ))}
+                        </pre>
+                      )}
+                    </Highlight>
+                    <textarea
+                      ref={textareaRef}
+                      name="code"
+                      value={formData.code}
+                      onChange={handleChange}
+                      onScroll={syncScroll}
+                      required
+                      spellCheck={false}
+                      className="absolute inset-0 w-full h-full p-3 pl-[3.25rem] text-sm font-mono bg-transparent text-transparent caret-white resize-none outline-none border-none"
+                      style={{ caretColor: "white" }}
+                    />
+                  </div>
+                  {showPreview && formData.code && (
+                    <div className="flex-1 min-w-0">
+                      <LivePreviewSandbox code={formData.code} themeSupport={formData.themeSupport as "both" | "light" | "dark"} />
+                    </div>
+                  )}
+                </div>
             </div>
             <div className="flex justify-end pt-4 border-t">
                <Button type="submit" disabled={loading}>{loading ? "Submitting..." : "Submit"}</Button>

@@ -6,7 +6,7 @@ import { Code2, Compass, Layers, Zap, ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)]">
+    <div className="flex flex-col min-h-[calc(100vh-4rem)] w-full">
       {/* Hero Section */}
       <section className="flex-1 flex flex-col items-center justify-center text-center px-4 py-24 bg-gradient-to-b from-background to-background/50 relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
@@ -25,16 +25,11 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button asChild size="lg" className="h-12 px-8 text-background">
-              <Link to="/components" className="text-background">
-                Browse Components <ArrowRight className="ml-2 h-4 w-4" />
+              <Link to="/components" className="text-background inline-flex items-center">
+              Browse Components <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base bg-background/50 backdrop-blur-sm text-foreground">
-              <Link to="/submit" className="text-foreground">
-                Submit a Component
-              </Link>
-            </Button>
-            <Button asChild variant="ghost" size="lg" className="h-12 px-8 text-base text-foreground">
               <Link to="/contribute" className="text-foreground">
                 Contribution Guide
               </Link>

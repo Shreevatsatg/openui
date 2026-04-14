@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { api } from "@/lib/api";
 import { COMPONENT_CATEGORY_OPTIONS } from "@/lib/componentCategories";
+import { LivePreviewSandbox } from "@/components/LivePreview";
+import { Highlight, themes } from "prism-react-renderer";
 
 export default function EditComponentPage() {
   const { id } = useParams();
@@ -18,6 +20,9 @@ export default function EditComponentPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [showPreview, setShowPreview] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
 
   useEffect(() => {
     if (!id || authLoading || !user) return;
@@ -57,8 +62,15 @@ export default function EditComponentPage() {
 
   const categories = COMPONENT_CATEGORY_OPTIONS;
 
+  const syncScroll = () => {
+    if (textareaRef.current && preRef.current) {
+      preRef.current.scrollTop = textareaRef.current.scrollTop;
+      preRef.current.scrollLeft = textareaRef.current.scrollLeft;
+    }
+  };
+
   return (
-    <div className="container mx-auto py-12 px-4 max-w-4xl">
+    <div className={`container mx-auto py-12 px-4 ${showPreview ? "max-w-none" : "max-w-4xl"}`}>
       <Button variant="ghost" className="mb-6 -ml-4" onClick={() => navigate(-1)}>
         <ArrowLeft className="mr-2 h-4 w-4" /> Back
       </Button>
@@ -117,13 +129,58 @@ export default function EditComponentPage() {
                 <option value="dark">Dark only</option>
               </select>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Code</label>
-              <textarea name="code" rows={15} value={formData.code} onChange={handleChange} required className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono resize-y" />
+            <div className={`space-y-2 ${showPreview ? "col-span-full" : ""}`}>
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium">Code</label>
+                <Button type="button" variant="outline" size="sm" onClick={() => setShowPreview(p => !p)} className="h-7 px-2 text-xs gap-1">
+                  {showPreview ? <><EyeOff className="h-3.5 w-3.5" /> Hide Preview</> : <><Eye className="h-3.5 w-3.5" /> Preview</>}
+                </Button>
+              </div>
+              <div className={`flex gap-4 ${showPreview ? "items-start" : ""}`}>
+                {/* Syntax-highlighted code editor */}
+                <div className="relative flex-1 rounded-md border border-input overflow-hidden bg-[#1E1E1E]" style={{ minHeight: "360px" }}>
+                  <Highlight theme={themes.vsDark} code={formData.code || " "} language="tsx">
+                    {({ tokens, getLineProps, getTokenProps }) => (
+                      <pre
+                        ref={preRef}
+                        aria-hidden
+                        className="absolute inset-0 p-3 text-sm font-mono m-0 overflow-auto pointer-events-none whitespace-pre"
+                        style={{ background: "transparent", color: "inherit" }}
+                      >
+                        {tokens.map((line, i) => (
+                          <div key={i} {...getLineProps({ line })}>
+                            <span className="inline-block w-8 text-right opacity-30 select-none mr-4 text-xs">{i + 1}</span>
+                            {line.map((token, key) => (
+                              <span key={key} {...getTokenProps({ token })} />
+                            ))}
+                          </div>
+                        ))}
+                      </pre>
+                    )}
+                  </Highlight>
+                  <textarea
+                    ref={textareaRef}
+                    name="code"
+                    value={formData.code}
+                    onChange={handleChange}
+                    onScroll={syncScroll}
+                    required
+                    spellCheck={false}
+                    className="absolute inset-0 w-full h-full p-3 pl-[3.25rem] text-sm font-mono bg-transparent text-transparent caret-white resize-none outline-none border-none"
+                    style={{ caretColor: "white" }}
+                  />
+                </div>
+                {/* Live preview panel */}
+                {showPreview && formData.code && (
+                  <div className="flex-1 min-w-0">
+                    <LivePreviewSandbox code={formData.code} themeSupport={formData.themeSupport as "both" | "light" | "dark"} />
+                  </div>
+                )}
+              </div>
             </div>
             <div className="flex justify-end pt-4 border-t border-border/50">
               <Button type="submit" size="lg" disabled={loading} className="w-full md:w-auto text-background">
-                {loading ? "Saving..." : "Save Changes"}
+                {loading ? "Submiting..." : "Submit"}
               </Button>
             </div>
           </form>

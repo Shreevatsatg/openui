@@ -17,7 +17,7 @@ function effectiveMiniTheme(
 
 export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreviewProps) {
   const { isDark: siteIsDark } = useTheme();
-  const isStatementStyleSnippet = /\b(render\s*\(|function\s+[A-Za-z0-9_]+\s*\(|const\s+[A-Za-z0-9_]+\s*=\s*\()/m.test(code);
+  const isStatementStyleSnippet = true;
   const preview = effectiveMiniTheme(themeSupport, siteIsDark);
 
   return (

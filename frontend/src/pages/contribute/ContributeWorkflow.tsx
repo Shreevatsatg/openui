@@ -15,8 +15,8 @@ export default function ContributeWorkflow() {
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-muted-foreground">
           <ol className="list-decimal list-inside space-y-2">
-            <li>Sign in and open Submit. Paste a self-contained snippet (see Snippets).</li>
-            <li>Admins review in the dashboard. They check theme contrast, accessibility, and parser errors.</li>
+            <li>Sign in and open Submit. Write your component as <code className="bg-muted px-1 rounded text-xs">export function</code> ending with <code className="bg-muted px-1 rounded text-xs">render()</code> — the boilerplate in the editor shows the required format.</li>
+            <li>Admins review in the dashboard. They check theme contrast, accessibility, and runtime errors.</li>
             <li>Approved components appear on the Components page and in search.</li>
             <li>Edits by non-admins return the item to pending for another review.</li>
           </ol>

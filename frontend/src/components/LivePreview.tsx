@@ -65,8 +65,6 @@ export function LivePreviewSandbox({ code, themeSupport = "both" }: LivePreviewP
     mobile: "375px",
   };
 
-  const isStatementStyleSnippet = /\b(render\s*\(|function\s+[A-Za-z0-9_]+\s*\(|const\s+[A-Za-z0-9_]+\s*=\s*\()/m.test(code);
-
   return (
     <div className="rounded-xl overflow-hidden border border-border bg-card shadow-sm flex flex-col">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3 bg-muted/20">
@@ -169,7 +167,7 @@ export function LivePreviewSandbox({ code, themeSupport = "both" }: LivePreviewP
             className="absolute p-8 flex items-center justify-center overflow-auto bg-dot-pattern transition-all duration-300 ease-in-out border-x border-dashed border-border/50 h-full"
             style={{ width: viewportWidths[viewport] }}
           >
-            <LiveProvider code={code} theme={themes.vsDark} noInline={isStatementStyleSnippet}>
+            <LiveProvider code={code} theme={themes.vsDark} noInline={true}>
               <div
                 className={`w-full flex items-center justify-center rounded-md shadow-sm border p-4 ${
                   effectivePreview === "dark" ? "dark bg-black text-white" : "bg-white text-black"

@@ -123,12 +123,22 @@ export default function ProfilePage() {
                                     </CardHeader>
                                     <CardFooter className="mt-auto pt-4 text-xs text-muted-foreground flex justify-between items-center border-t border-border">
                                         <span>Submitted on {new Date(comp.createdAt).toLocaleDateString()}</span>
-                                        <Link
-                                            to={`/edit/${comp._id.toString()}`}
-                                            className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
-                                        >
-                                            Edit
-                                        </Link>
+                                        <div className="flex gap-2">
+                                            {comp.status === "approved" && (
+                                                <Link
+                                                    to={`/components/${comp.slug}`}
+                                                    className="px-3 py-1 bg-primary text-background hover:bg-primary/90 rounded-md transition-colors"
+                                                >
+                                                    View
+                                                </Link>
+                                            )}
+                                            <Link
+                                                to={`/edit/${comp._id.toString()}`}
+                                                className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
+                                            >
+                                                Edit
+                                            </Link>
+                                        </div>
                                     </CardFooter>
                                 </Card>
                             ))}

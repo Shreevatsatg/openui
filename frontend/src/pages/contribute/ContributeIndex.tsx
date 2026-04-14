@@ -40,7 +40,7 @@ export default function ContributeIndex() {
           <p>2. Verify keyboard support, focus states, and semantic HTML.</p>
           <p>3. Test visual quality in both light and dark preview modes.</p>
           <p>4. Submit clear title, category, description, and tags.</p>
-          <p>5. Add a concise code snippet that runs without project-specific dependencies.</p>
+          <p>5. Write code as <code className="bg-muted px-1 rounded text-xs">export function MyComponent()</code> ending with <code className="bg-muted px-1 rounded text-xs">render(&lt;MyComponent /&gt;)</code> — bare JSX is rejected.</p>
           <p>6. Choose correct Theme Support (both, light-only, dark-only).</p>
           <p>7. Re-open your submission in preview and verify there are no runtime or syntax errors.</p>
         </CardContent>
