@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
 import ComponentEditor from "./pages/ComponentEditor";
 import Admin from "./pages/Admin";
+import LivePreviewPage from "./pages/LivePreviewPage";
 import ContributeLayout from "./pages/contribute/ContributeLayout";
 import ContributeIndex from "./pages/contribute/ContributeIndex";
 import ContributeWorkflow from "./pages/contribute/ContributeWorkflow";
@@ -59,6 +60,7 @@ const CentralRouter = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>
+        <Route path="/live-preview/:slug" element={<LivePreviewPage />} />
       </Routes>
     );
   }
@@ -88,6 +90,7 @@ const CentralRouter = () => {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
+      <Route path="/live-preview/:slug" element={<LivePreviewPage />} />
     </Routes>
   );
 };

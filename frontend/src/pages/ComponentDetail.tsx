@@ -59,7 +59,7 @@ export default function ComponentDetailPage() {
 
       <div className="space-y-12">
         <section>
-          <LivePreviewSandbox code={component.code} themeSupport={component.themeSupport || "both"} />
+          <LivePreviewSandbox code={component.code} themeSupport={component.themeSupport || "both"} slug={component.slug} />
         </section>
 
         <section className="space-y-4">

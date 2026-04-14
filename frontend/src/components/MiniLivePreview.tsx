@@ -1,5 +1,8 @@
+import React from "react";
 import { LiveProvider, LivePreview as ReactLivePreview } from "react-live";
 import { useTheme } from "@/context/ThemeContext";
+import * as LucideIcons from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface MiniLivePreviewProps {
   code: string;
@@ -20,16 +23,26 @@ export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreview
   const isStatementStyleSnippet = true;
   const preview = effectiveMiniTheme(themeSupport, siteIsDark);
 
+  const preprocessCode = (inputCode: string) => {
+    return inputCode
+      .replace(/import\s+.*?from\s+['"].*?['"];?\n?/g, "")
+      .replace(/export\s+default\s+function/g, "function")
+      .replace(/export\s+function/g, "function")
+      .replace(/export\s+const/g, "const");
+  };
+
+  const strippedCode = preprocessCode(code);
+
   return (
-    <div className="w-full h-full relative overflow-hidden bg-dot-pattern flex items-center justify-center p-4">
-      <div
-        className={`scale-[0.85] origin-center w-full flex items-center justify-center pointer-events-none rounded-md border p-2 ${
-          preview === "dark" ? "dark bg-black text-white border-zinc-700" : "bg-white text-black border-zinc-200"
-        }`}
-        style={{ colorScheme: preview }}
-      >
-        <LiveProvider code={code} noInline={isStatementStyleSnippet}>
-          <ReactLivePreview className="max-w-full" />
+    <div
+      className={`w-full h-full relative overflow-hidden flex items-start justify-center ${
+        preview === "dark" ? "dark bg-black text-white" : "bg-white text-black"
+      }`}
+      style={{ colorScheme: preview }}
+    >
+      <div className="w-full h-full pointer-events-none scale-[0.85] origin-top flex justify-center p-4">
+        <LiveProvider code={strippedCode} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
+          <ReactLivePreview className="w-full" />
         </LiveProvider>
       </div>
     </div>

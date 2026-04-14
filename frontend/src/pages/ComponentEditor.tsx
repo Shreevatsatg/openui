@@ -131,11 +131,11 @@ export default function ComponentEditor() {
       {/* Left Sidebar - Metadata */}
       {showSidebar && (
         <div className="w-full lg:w-1/3 xl:w-1/4 border-r border-border/50 overflow-y-auto flex flex-col bg-card transition-all duration-300">
-          <div className="p-4 border-b border-border/50 sticky top-0 bg-card z-10 flex items-center justify-between">
+          <div className=" border-b border-border/50 sticky top-0 bg-card z-10 flex items-center justify-center">
             <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5 mr-3" />
             </Button>
-            <h1 className="text-xl font-bold tracking-tight">{isEditMode ? "Edit Component" : "Submit Component"}</h1>
+            <h1 className="text-xl font-bold tracking-tight p-4">{isEditMode ? "Edit Component" : "Submit Component"}</h1>
           </div>
 
           <div className="p-4 flex-1">
