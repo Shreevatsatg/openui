@@ -20,7 +20,6 @@ function effectiveMiniTheme(
 
 export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreviewProps) {
   const { isDark: siteIsDark } = useTheme();
-  const isStatementStyleSnippet = true;
   const preview = effectiveMiniTheme(themeSupport, siteIsDark);
 
   const preprocessCode = (inputCode: string) => {
@@ -35,9 +34,8 @@ export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreview
 
   return (
     <div
-      className={`w-full h-full relative overflow-hidden flex items-start justify-center ${
-        preview === "dark" ? "dark bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`w-full h-full relative overflow-hidden flex items-start justify-center ${preview === "dark" ? "dark bg-black text-white" : "bg-white text-black"
+        }`}
       style={{ colorScheme: preview }}
     >
       <div className="w-full h-full pointer-events-none scale-[0.85] origin-top flex justify-center p-4">

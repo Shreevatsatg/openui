@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { LivePreviewSandbox } from "@/components/LivePreview";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
 
 export default function ComponentDetailPage() {
