@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { Code2, Search, User as UserIcon, ChevronDown, LayoutGrid, Trophy, GitPullRequest, ShieldCheck } from "lucide-react";
+import {  Search, User as UserIcon , LayoutGrid, Trophy, GitPullRequest, ShieldCheck } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useState, useRef, useEffect } from "react";
+import { useState, } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
