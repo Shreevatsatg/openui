@@ -24,7 +24,7 @@ export default function ComponentDetailPage() {
   if (error || !component) return <div className="p-12 text-center text-destructive">Component not found.</div>;
 
   return (
-    <div className="py-10 px-8 max-w-5xl mx-auto">
+    <div>
       <div className="mb-8 space-y-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
           <Link to="/components" className="hover:text-foreground transition-colors">Components</Link>

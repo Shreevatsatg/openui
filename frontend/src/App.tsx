@@ -20,11 +20,12 @@ import ContributeThemes from "./pages/contribute/ContributeThemes";
 import ContributeSnippets from "./pages/contribute/ContributeSnippets";
 import InstallationReact from "./pages/contribute/InstallationReact";
 import InstallationNext from "./pages/contribute/InstallationNext";
+import ComponentsShell from "./pages/ComponentsShell";
 
 const Layout = () => (
   <div className="flex flex-col min-h-screen bg-background text-foreground font-sans antialiased">
     <Navbar />
-    <main className="flex-1 flex flex-col">
+    <main className="flex-1 flex">
       <Outlet />
     </main>
   </div>
@@ -42,8 +43,10 @@ const CentralRouter = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/components" element={<Components />} />
-          <Route path="/components/:slug" element={<ComponentDetail />} />
+          <Route path="/components" element={<ComponentsShell />}>
+            <Route index element={<Components />} />
+            <Route path=":slug" element={<ComponentDetail />} />
+          </Route>
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="contribute" element={<ContributeLayout />}>
             <Route index element={<ContributeIndex />} />
@@ -65,8 +68,10 @@ const CentralRouter = () => {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/components" element={<Components />} />
-        <Route path="/components/:slug" element={<ComponentDetail />} />
+        <Route path="/components" element={<ComponentsShell />}>
+          <Route index element={<Components />} />
+          <Route path=":slug" element={<ComponentDetail />} />
+        </Route>
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="contribute" element={<ContributeLayout />}>
           <Route index element={<ContributeIndex />} />
