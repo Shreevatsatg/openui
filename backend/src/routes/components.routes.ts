@@ -60,7 +60,7 @@ router.get("/:slug", async (req: Request, res: Response): Promise<void> => {
 // Submit a new component (protected)
 router.post("/", protect, async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { title, slug, description, category, code, tags } = req.body;
+    const { title, slug, description, category, code, tags, themeSupport } = req.body;
     const component = await Component.create({
       title,
       slug,
@@ -68,6 +68,7 @@ router.post("/", protect, async (req: AuthRequest, res: Response): Promise<void>
       category,
       code,
       tags,
+      themeSupport: themeSupport || "both",
       authorId: req.user._id,
       status: req.user.role === "admin" ? "approved" : "pending",
     });
@@ -91,13 +92,14 @@ router.put("/:id", protect, async (req: AuthRequest, res: Response): Promise<voi
       return;
     }
 
-    const { title, slug, description, category, code, tags } = req.body;
+    const { title, slug, description, category, code, tags, themeSupport } = req.body;
     component.title = title || component.title;
     component.slug = slug || component.slug;
     component.description = description || component.description;
     component.category = category || component.category;
     component.code = code || component.code;
     component.tags = tags || component.tags;
+    component.themeSupport = themeSupport || component.themeSupport;
     
     // If edited by user, send back to pending unless admin
     if (req.user.role !== "admin") {

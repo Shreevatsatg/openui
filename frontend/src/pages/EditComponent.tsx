@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { api } from "@/lib/api";
+import { COMPONENT_CATEGORY_OPTIONS } from "@/lib/componentCategories";
 
 export default function EditComponentPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
-    title: "", description: "", category: "", tags: "", code: "", previewImage: "",
+    title: "", description: "", category: "", tags: "", code: "", previewImage: "", themeSupport: "both",
   });
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -26,7 +27,7 @@ export default function EditComponentPage() {
       setFormData({
         title: data.title || "", description: data.description || "",
         category: data.category || "", tags: data.tags ? data.tags.join(", ") : "",
-        code: data.code || "", previewImage: data.previewImage || "",
+        code: data.code || "", previewImage: data.previewImage || "", themeSupport: data.themeSupport || "both",
       });
     })
     .catch(() => setMessage({ type: "error", text: "Failed to load" }))
@@ -54,7 +55,7 @@ export default function EditComponentPage() {
     }
   };
 
-  const categories = ["Buttons", "Cards", "Forms", "Inputs", "Modals", "Navigation", "Animations", "Loaders", "Layouts"];
+  const categories = COMPONENT_CATEGORY_OPTIONS;
 
   return (
     <div className="container mx-auto py-12 px-4 max-w-4xl">
@@ -83,7 +84,11 @@ export default function EditComponentPage() {
                 <label className="text-sm font-medium">Category</label>
                 <select name="category" value={formData.category} onChange={handleChange} required className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
                   <option value="" disabled>Select category</option>
-                  {categories.map(cat => <option key={cat} value={cat.toLowerCase()}>{cat}</option>)}
+                  {categories.map((cat) => (
+                    <option key={cat.slug} value={cat.slug}>
+                      {cat.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -98,6 +103,19 @@ export default function EditComponentPage() {
             <div className="space-y-2">
               <label className="text-sm font-medium">Preview Image URL</label>
               <Input name="previewImage" type="url" value={formData.previewImage} onChange={handleChange} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Theme Support</label>
+              <select
+                name="themeSupport"
+                value={formData.themeSupport}
+                onChange={handleChange}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                <option value="both">Both light and dark</option>
+                <option value="light">Light only</option>
+                <option value="dark">Dark only</option>
+              </select>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Code</label>

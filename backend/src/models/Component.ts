@@ -9,6 +9,7 @@ export interface IComponent extends Document {
   previewImage?: string;
   authorId: mongoose.Types.ObjectId;
   tags: string[];
+  themeSupport: "both" | "light" | "dark";
   status: "pending" | "approved" | "rejected";
   createdAt: Date;
 }
@@ -22,6 +23,7 @@ const ComponentSchema: Schema = new Schema({
   previewImage: { type: String },
   authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   tags: { type: [String], default: [] },
+  themeSupport: { type: String, enum: ["both", "light", "dark"], default: "both" },
   status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
   createdAt: { type: Date, default: Date.now },
 });

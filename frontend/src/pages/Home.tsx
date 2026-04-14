@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
+import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Code2, Compass, Layers, Zap, ArrowRight } from "lucide-react";
 
@@ -24,13 +25,18 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button asChild size="lg" className="h-12 px-8 text-background">
-              <Link to="/components">
+              <Link to="/components" className="text-background">
                 Browse Components <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base bg-background/50 backdrop-blur-sm">
-              <Link to="/submit">
+            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base bg-background/50 backdrop-blur-sm text-foreground">
+              <Link to="/submit" className="text-foreground">
                 Submit a Component
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="lg" className="h-12 px-8 text-base text-foreground">
+              <Link to="/contribute" className="text-foreground">
+                Contribution Guide
               </Link>
             </Button>
           </div>
@@ -100,7 +106,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex-shrink-0">
-                <Button asChild size="lg" className="h-12 px-8">
+                <Button asChild size="lg" className="h-12 px-8 text-background">
                   <Link className="text-background" to="/signup">Create an Account</Link>
                 </Button>
               </div>
@@ -108,16 +114,7 @@ export default function Home() {
           </Card>
         </div>
       </section>
-
-      {/* Simple Footer */}
-      <footer className="border-t border-border/50 py-8 px-4 text-center text-muted-foreground flex flex-col md:flex-row items-center justify-center gap-4">
-        <span>© {new Date().getFullYear()} OpenUI. All rights reserved.</span>
-        <div className="flex gap-4 items-center">
-          <Link to="https://github.com" target="_blank" className="hover:text-foreground">
-            <span>GitHub</span>
-          </Link>
-        </div>
-      </footer>
+    <Footer />
     </div>
   );
 }

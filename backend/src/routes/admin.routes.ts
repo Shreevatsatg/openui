@@ -11,6 +11,7 @@ function serializeSubmission(sub: {
   description: string;
   category: string;
   code: string;
+  themeSupport?: "both" | "light" | "dark";
   authorId?: unknown;
   createdAt: Date;
 }) {
@@ -26,6 +27,7 @@ function serializeSubmission(sub: {
     description: sub.description,
     category: sub.category,
     code: sub.code,
+    themeSupport: sub.themeSupport ?? "both",
     author,
     createdAt,
   };

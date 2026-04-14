@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LivePreviewSandbox } from "@/components/LivePreview";
+import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
 
 export type AdminSubmission = {
@@ -11,6 +12,7 @@ export type AdminSubmission = {
   description: string;
   category: string;
   code: string;
+  themeSupport?: "both" | "light" | "dark";
   author: string;
   createdAt: string;
 };
@@ -53,6 +55,9 @@ export function AdminSubmissionList({ submissions, status = "pending", onAfterAc
                 <div className="text-sm text-muted-foreground mt-1 flex flex-wrap gap-x-4 gap-y-1">
                   <span>By {sub.author}</span>
                   <span className="capitalize">Category: {sub.category}</span>
+                  <Badge variant="outline" className="capitalize text-[11px]">
+                    Theme: {sub.themeSupport ?? "both"}
+                  </Badge>
                   <span>{new Date(sub.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
@@ -81,7 +86,7 @@ export function AdminSubmissionList({ submissions, status = "pending", onAfterAc
           </CardHeader>
           <CardContent className="p-0 border-t">
             <div className="max-h-[500px] overflow-auto">
-              <LivePreviewSandbox code={sub.code} />
+              <LivePreviewSandbox code={sub.code} themeSupport={sub.themeSupport ?? "both"} />
             </div>
           </CardContent>
         </Card>

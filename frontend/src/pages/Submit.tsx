@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/lib/api";
+import { COMPONENT_CATEGORY_OPTIONS } from "@/lib/componentCategories";
 
 export default function SubmitPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    title: "", description: "", category: "", tags: "", code: "", previewImage: "",
+    title: "", description: "", category: "", tags: "", code: "", previewImage: "", themeSupport: "both",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -37,14 +38,16 @@ export default function SubmitPage() {
     }
   };
 
-  const categories = ["Buttons", "Cards", "Forms", "Inputs", "Modals", "Navigation", "Animations", "Loaders", "Layouts"];
+  const categories = COMPONENT_CATEGORY_OPTIONS;
 
   return (
     <div className="container mx-auto py-12 px-4 max-w-4xl">
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="text-3xl font-bold">Submit a Component</CardTitle>
-          <CardDescription>Share your best work with the OpenUI community.</CardDescription>
+          <CardDescription>
+            Share your best work with the OpenUI community. Review the <Link to="/contribute" className="text-primary underline-offset-4 hover:underline">contribution guide</Link> before submitting.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -62,7 +65,11 @@ export default function SubmitPage() {
                 <label className="text-sm font-medium">Category</label>
                 <select name="category" value={formData.category} onChange={handleChange} required className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-primary outline-none">
                   <option value="" disabled>Select category</option>
-                  {categories.map(c => <option key={c} value={c.toLowerCase()}>{c}</option>)}
+                  {categories.map((c) => (
+                    <option key={c.slug} value={c.slug}>
+                      {c.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -77,6 +84,22 @@ export default function SubmitPage() {
             <div className="space-y-2">
                 <label className="text-sm font-medium">Preview Image URL</label>
                 <Input name="previewImage" type="url" placeholder="https://" value={formData.previewImage} onChange={handleChange} />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Theme Support</label>
+              <select
+                name="themeSupport"
+                value={formData.themeSupport}
+                onChange={handleChange}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-primary outline-none"
+              >
+                <option value="both">Both light and dark</option>
+                <option value="light">Light only</option>
+                <option value="dark">Dark only</option>
+              </select>
+              <p className="text-xs text-muted-foreground">
+                Prefer "Both light and dark". Single-theme components may be rejected if readability is affected.
+              </p>
             </div>
             <div className="space-y-2">
                 <label className="text-sm font-medium">Code</label>

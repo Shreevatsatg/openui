@@ -14,7 +14,14 @@ OpenUI is a full-stack web app for discovering, sharing, and curating UI compone
 - **Authentication** — Register, login, JWT-backed sessions; protected routes for submit/profile/edit.
 - **Public browsing** — Home, component catalog with search, component detail by slug, leaderboard (available without an account).
 - **Submissions** — Authenticated users can submit and edit their components (multipart uploads where applicable).
+- **Contribution docs** — In-app `/contribute` guide with quality standards and theme compatibility requirements.
 - **Admin** — Role-based access to review submissions (approve / reject) and view dashboard data.
+
+## Contribution standards
+
+- Open `/contribute` in the app for contributor onboarding, review expectations, and submission quality checks.
+- Submissions now include a `themeSupport` declaration (`both`, `light`, or `dark`).
+- `both` is the recommended default; components that become unreadable/invisible in one theme are likely to be rejected during review.
 
 API routes are mounted under `/api` (e.g. `/api/auth`, `/api/components`, `/api/admin`, `/api/leaderboard`).
 

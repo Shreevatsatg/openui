@@ -16,6 +16,7 @@ function serializeSubmission(sub) {
         description: sub.description,
         category: sub.category,
         code: sub.code,
+        themeSupport: sub.themeSupport ?? "both",
         author,
         createdAt,
     };

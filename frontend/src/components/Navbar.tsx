@@ -35,6 +35,9 @@ export function Navbar() {
             <Link to="/leaderboard" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Leaderboard
             </Link>
+            <Link to="/contribute" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Contribute
+            </Link>
           </div>
         </div>
 

@@ -8,6 +8,7 @@ export interface IComponent extends Document {
     previewImage?: string;
     authorId: mongoose.Types.ObjectId;
     tags: string[];
+    themeSupport: "both" | "light" | "dark";
     status: "pending" | "approved" | "rejected";
     createdAt: Date;
 }

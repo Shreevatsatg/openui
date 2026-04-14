@@ -62,7 +62,7 @@ router.get("/:slug", async (req, res) => {
 // Submit a new component (protected)
 router.post("/", auth_middleware_1.protect, async (req, res) => {
     try {
-        const { title, slug, description, category, code, tags } = req.body;
+        const { title, slug, description, category, code, tags, themeSupport } = req.body;
         const component = await Component_1.Component.create({
             title,
             slug,
@@ -70,6 +70,7 @@ router.post("/", auth_middleware_1.protect, async (req, res) => {
             category,
             code,
             tags,
+            themeSupport: themeSupport || "both",
             authorId: req.user._id,
             status: req.user.role === "admin" ? "approved" : "pending",
         });
@@ -92,13 +93,14 @@ router.put("/:id", auth_middleware_1.protect, async (req, res) => {
             res.status(403).json({ message: "Not authorized to edit this component" });
             return;
         }
-        const { title, slug, description, category, code, tags } = req.body;
+        const { title, slug, description, category, code, tags, themeSupport } = req.body;
         component.title = title || component.title;
         component.slug = slug || component.slug;
         component.description = description || component.description;
         component.category = category || component.category;
         component.code = code || component.code;
         component.tags = tags || component.tags;
+        component.themeSupport = themeSupport || component.themeSupport;
         // If edited by user, send back to pending unless admin
         if (req.user.role !== "admin") {
             component.status = "pending";

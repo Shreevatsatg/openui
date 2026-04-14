@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../compone
 import { Badge } from '../components/ui/badge';
 import { Link, useNavigate } from 'react-router-dom';
 import { User as UserIcon, LayoutGrid, PlusCircle } from 'lucide-react';
+import { MiniLivePreview } from '@/components/MiniLivePreview';
 
 const LogoutButton = () => {
     const { logout } = useAuth();
@@ -94,9 +95,15 @@ export default function ProfilePage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {userComponents.map((comp: any) => (
                                 <Card key={comp._id.toString()} className="flex flex-col">
+                                    <div className="aspect-[4/3] border-b border-border/50 bg-muted/20">
+                                        <MiniLivePreview code={comp.code} themeSupport={comp.themeSupport || "both"} />
+                                    </div>
                                     <CardHeader className="pb-2">
                                         <div className="flex justify-between items-start mb-2">
-                                            <Badge variant="outline" className="capitalize">{comp.category}</Badge>
+                                            <div className="flex items-center gap-2">
+                                                <Badge variant="outline" className="capitalize">{comp.category}</Badge>
+                                                <Badge variant="outline" className="capitalize">Theme: {comp.themeSupport || "both"}</Badge>
+                                            </div>
                                             <Badge
                                                 variant={comp.status === "approved" ? "default" : comp.status === "rejected" ? "destructive" : "secondary"}
                                                 className={`capitalize ${comp.status === "approved" ? "text-background" : comp.status === "rejected" ? "text-red-500 bg-red-100/10 hover:bg-red-100/20" : ""}`}

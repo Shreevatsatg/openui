@@ -44,6 +44,7 @@ const ComponentSchema = new mongoose_1.Schema({
     previewImage: { type: String },
     authorId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
     tags: { type: [String], default: [] },
+    themeSupport: { type: String, enum: ["both", "light", "dark"], default: "both" },
     status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
     createdAt: { type: Date, default: Date.now },
 });

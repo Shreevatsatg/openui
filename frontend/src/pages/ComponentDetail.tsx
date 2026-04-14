@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { LivePreviewSandbox } from "@/components/LivePreview";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
 
 export default function ComponentDetailPage() {
@@ -42,6 +43,9 @@ export default function ComponentDetailPage() {
                <div className="mt-2 text-sm text-muted-foreground">
                  By {component.authorId?.name || "Unknown"}
                </div>
+               <Badge variant="outline" className="mt-3 capitalize">
+                 Theme support: {component.themeSupport || "both"}
+               </Badge>
            </div>
            
            {(user?.role === "admin" ||
@@ -55,7 +59,7 @@ export default function ComponentDetailPage() {
 
       <div className="space-y-12">
           <section>
-              <LivePreviewSandbox code={component.code} />
+              <LivePreviewSandbox code={component.code} themeSupport={component.themeSupport || "both"} />
           </section>
 
           <section className="space-y-4">

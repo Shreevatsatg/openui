@@ -41,6 +41,10 @@ export default function AdminDashboardPage() {
   if (loading) return <div className="p-8 text-center text-muted-foreground">Loading admin panel...</div>;
   if (!data) return <div className="p-8 text-center text-destructive">Not authorized or failed to fetch.</div>;
 
+  const allSubmissions = [...data.pendingSubmissions, ...data.approvedSubmissions, ...data.rejectedSubmissions];
+  const bothThemeCount = allSubmissions.filter((sub) => (sub.themeSupport ?? "both") === "both").length;
+  const singleThemeCount = allSubmissions.length - bothThemeCount;
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">
       <div className="flex items-center gap-3 mb-8">
@@ -49,11 +53,11 @@ export default function AdminDashboardPage() {
         </div>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage submissions and platform statistics.</p>
+          <p className="text-muted-foreground">Manage submissions, validate theme compatibility, and monitor platform health.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-10">
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Pending Submissions</CardDescription>
@@ -72,7 +76,28 @@ export default function AdminDashboardPage() {
             <CardTitle className="text-4xl">{data.usersCount}</CardTitle>
           </CardHeader>
         </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Theme-safe (Both)</CardDescription>
+            <CardTitle className="text-4xl">{bothThemeCount}</CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardDescription>Single-theme</CardDescription>
+            <CardTitle className="text-4xl">{singleThemeCount}</CardTitle>
+          </CardHeader>
+        </Card>
       </div>
+
+      <Card className="mb-8 border-border/50">
+        <CardHeader>
+          <CardTitle className="text-lg">Review Policy</CardTitle>
+          <CardDescription>
+            Prioritize readability and contrast in both preview themes. Reject submissions with parser/runtime errors or invisible UI in supported modes.
+          </CardDescription>
+        </CardHeader>
+      </Card>
 
       <AdminSubmissionsTabs
         pending={data.pendingSubmissions}
