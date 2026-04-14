@@ -34,11 +34,26 @@ export function LivePreviewSandbox({ code, themeSupport = "both", slug = "sandbo
   const effectivePreview = lockedPreview !== null ? clampPreviewTheme(lockedPreview, themeSupport) : siteClamped;
 
   const preprocessCode = (inputCode: string) => {
-    return inputCode
-      .replace(/import\s+.*?from\s+['"].*?['"];?\n?/g, "")
+    let processedCode = inputCode.replace(/import[\s\S]*?from\s+['"].*?['"];?\n?/g, "");
+
+    // Auto-inject render() if it's missing
+    if (!processedCode.includes("render(")) {
+      const exportMatch = processedCode.match(/export\s+(?:default\s+)?(?:function\s+|const\s+)([A-Z]\w*)/);
+      if (exportMatch && exportMatch[1]) {
+        processedCode += `\n\nrender(<${exportMatch[1]} />);`;
+      } else {
+        const fallbackMatch = processedCode.match(/function\s+([A-Z]\w*)/) || processedCode.match(/const\s+([A-Z]\w*)\s*=/);
+        if (fallbackMatch && fallbackMatch[1]) {
+          processedCode += `\n\nrender(<${fallbackMatch[1]} />);`;
+        }
+      }
+    }
+
+    return processedCode
       .replace(/export\s+default\s+function/g, "function")
       .replace(/export\s+function/g, "function")
-      .replace(/export\s+const/g, "const");
+      .replace(/export\s+const/g, "const")
+      .replace(/export\s+default\s+[A-Z]\w*;?/g, "");
   };
 
   const strippedCode = preprocessCode(code);

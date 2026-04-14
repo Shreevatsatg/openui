@@ -7,23 +7,24 @@ import { api } from "@/lib/api";
 import { COMPONENT_CATEGORY_OPTIONS } from "@/lib/componentCategories";
 import { Highlight, themes } from "prism-react-renderer";
 import { LivePreviewSandbox } from "@/components/LivePreview";
-import { Loader2, ArrowLeft, PanelLeftClose, PanelLeft, Columns, Code, Eye } from "lucide-react";
+import { Loader2, ArrowLeft, PanelLeftClose, PanelLeft, Columns, Code, Eye, X, Plus } from "lucide-react";
 
-const BOILERPLATE = `export function MyComponent() {
+const BOILERPLATE = `import React from "react";
+import { Loader2 } from "lucide-react";
+
+export function MyComponent() {
   return (
     <div className="rounded-xl border border-border bg-card p-6 text-card-foreground shadow-sm">
       <h3 className="text-lg font-semibold">My Component</h3>
       <p className="mt-2 text-sm text-muted-foreground">
         Edit this to build your component.
       </p>
-      <button className="mt-4 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition">
-        Action
+      <button className="mt-4 flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition">
+        Action <Loader2 className="h-4 w-4 animate-spin" />
       </button>
     </div>
   );
-}
-
-render(<MyComponent />);`;
+}`;
 
 export default function ComponentEditor() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ export default function ComponentEditor() {
   const { user, loading: authLoading } = useAuth();
 
   const [formData, setFormData] = useState({
-    title: "", description: "", category: "", tags: "", code: isEditMode ? "" : BOILERPLATE, previewImage: "", themeSupport: "both",
+    title: "", description: "", category: "", tags: "", code: isEditMode ? "" : BOILERPLATE, previewImage: "", themeSupport: "both", dependencies: [] as string[], usage: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -57,6 +58,7 @@ export default function ComponentEditor() {
           title: data.title || "", description: data.description || "",
           category: data.category || "", tags: data.tags ? data.tags.join(", ") : "",
           code: data.code || "", previewImage: data.previewImage || "", themeSupport: data.themeSupport || "both",
+          dependencies: data.dependencies || [], usage: data.usage || "",
         });
       })
       .catch(() => setMessage({ type: "error", text: "Failed to load component data." }))
@@ -97,9 +99,9 @@ export default function ComponentEditor() {
     setLoading(true);
     setMessage({ type: "", text: "" });
 
-    const codeChecksPassed = formData.code.includes("export function") && formData.code.includes("render(");
+    const codeChecksPassed = formData.code.includes("export function") || formData.code.includes("export default function") || formData.code.includes("export const");
     if (!codeChecksPassed) {
-      setMessage({ type: "error", text: "Invalid Code Format: Please use 'export function MyComponent()' and end with 'render(<MyComponent />);'." });
+      setMessage({ type: "error", text: "Invalid Code Format: Please export your main component (e.g. 'export function MyComponent()')." });
       setLoading(false);
       return;
     }
@@ -141,8 +143,8 @@ export default function ComponentEditor() {
           <div className="p-4 flex-1">
             <p className="text-sm text-muted-foreground mb-6">
               {isEditMode
-                ? "Update your component metadata and code. Make sure to maintain the proper export and render format."
-                : "Review the contribution guide before submitting. Make sure to use the required export and render format."
+                ? "Update your component metadata and code."
+                : "Review the contribution guide before submitting. Make sure to export your main component."
               }
             </p>
 
@@ -176,6 +178,44 @@ export default function ComponentEditor() {
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">Tags</label>
                 <Input name="tags" placeholder="react, tailwind (comma separated)" value={formData.tags} onChange={handleChange} className="h-9" />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider flex items-center justify-between">
+                  <span>Dependencies</span>
+                  <button type="button" onClick={() => setFormData({...formData, dependencies: [...formData.dependencies, ""]})} className="text-primary hover:underline hover:text-primary/80 lowercase flex items-center gap-1">
+                    <Plus className="h-3 w-3" /> Add
+                  </button>
+                </label>
+                <div className="space-y-2">
+                  {formData.dependencies.map((dep, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <Input value={dep} onChange={(e) => {
+                        const newDeps = [...formData.dependencies];
+                        newDeps[idx] = e.target.value;
+                        setFormData({...formData, dependencies: newDeps});
+                      }} placeholder="e.g. lucide-react" className="h-9 flex-1" />
+                      <Button type="button" variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-destructive shrink-0" onClick={() => {
+                        const newDeps = formData.dependencies.filter((_, i) => i !== idx);
+                        setFormData({...formData, dependencies: newDeps});
+                      }}>
+                         <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  {formData.dependencies.length === 0 && <div className="text-xs text-muted-foreground italic">No dependencies added.</div>}
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">Usage Example</label>
+                <textarea
+                  name="usage"
+                  placeholder="import { Button } from '@/components/ui/button';&#10;&#10;export default function App() {&#10;  return <Button>Click</Button>&#10;}"
+                  value={formData.usage}
+                  onChange={handleChange}
+                  className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground outline-none focus-visible:ring-1 focus-visible:ring-primary min-h-[100px] font-mono"
+                />
               </div>
 
             </form>
