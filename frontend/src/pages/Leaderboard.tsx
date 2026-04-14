@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { Card, CardContent, CardHeader } from "../components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Trophy, Medal, Award } from "lucide-react";
 
 export default function LeaderboardPage() {
@@ -14,7 +15,44 @@ export default function LeaderboardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="p-8 text-center text-muted-foreground">Loading leaderboard...</div>;
+  if (loading) return (
+    <div className="container mx-auto py-12 px-4 max-w-4xl">
+      {/* Header skeleton */}
+      <div className="flex flex-col items-center mb-12 gap-4">
+        <Skeleton className="h-20 w-20 rounded-full" />
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-4 w-96 max-w-full" />
+        <Skeleton className="h-4 w-72 max-w-full" />
+      </div>
+      {/* Table skeleton */}
+      <Card className="shadow-lg overflow-hidden">
+        <CardHeader className="bg-muted/30 border-b border-border">
+          <div className="grid grid-cols-12 px-4 gap-2">
+            <Skeleton className="col-span-2 h-4" />
+            <Skeleton className="col-span-7 h-4" />
+            <Skeleton className="col-span-3 h-4" />
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="divide-y divide-border/50">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="grid grid-cols-12 items-center px-8 py-4 gap-2">
+                <div className="col-span-2 flex justify-center">
+                  <Skeleton className={`rounded-full ${i < 3 ? "h-7 w-7" : "h-5 w-5"}`} />
+                </div>
+                <div className="col-span-7">
+                  <Skeleton className={`h-4 ${i === 0 ? "w-40" : i === 1 ? "w-32" : "w-28"}`} />
+                </div>
+                <div className="col-span-3 flex justify-end">
+                  <Skeleton className="h-6 w-12 rounded-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 
   return (
     <div className="container mx-auto py-12 px-4 max-w-4xl">

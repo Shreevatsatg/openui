@@ -93,8 +93,15 @@ export default function ProfilePage() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {userComponents.map((comp: any) => (
-                                <Card key={comp._id.toString()} className="flex flex-col">
+                            {userComponents.map((comp: any) => {
+                                const isApproved = comp.status === "approved";
+                                const CardWrapper = ({ children }: { children: React.ReactNode }) => isApproved
+                                    ? <Link to={`/components/${comp.slug}`} className="flex flex-col group">{children}</Link>
+                                    : <div className="flex flex-col">{children}</div>;
+
+                                return (
+                                <Card key={comp._id.toString()} className={`flex flex-col overflow-hidden p-0 ${isApproved ? "cursor-pointer hover:border-primary/50 transition-colors" : ""}`}>
+                                    <CardWrapper>
                                     <div className="aspect-[4/3] border-b border-border/50 bg-muted/20">
                                         <MiniLivePreview code={comp.code} themeSupport={comp.themeSupport || "both"} />
                                     </div>
@@ -111,37 +118,24 @@ export default function ProfilePage() {
                                                 {comp.status}
                                             </Badge>
                                         </div>
-                                        <CardTitle className="text-lg">
-                                            {comp.status === "approved" ? (
-                                                <Link to={`/components/${comp.slug}`} className="hover:text-primary transition-colors">
-                                                    {comp.title}
-                                                </Link>
-                                            ) : (
-                                                comp.title
-                                            )}
+                                        <CardTitle className={`text-lg ${isApproved ? "group-hover:text-primary transition-colors" : ""}`}>
+                                            {comp.title}
                                         </CardTitle>
                                     </CardHeader>
+                                    </CardWrapper>
                                     <CardFooter className="mt-auto pt-4 text-xs text-muted-foreground flex justify-between items-center border-t border-border">
                                         <span>Submitted on {new Date(comp.createdAt).toLocaleDateString()}</span>
-                                        <div className="flex gap-2">
-                                            {comp.status === "approved" && (
-                                                <Link
-                                                    to={`/components/${comp.slug}`}
-                                                    className="px-3 py-1 bg-primary text-background hover:bg-primary/90 rounded-md transition-colors"
-                                                >
-                                                    View
-                                                </Link>
-                                            )}
-                                            <Link
-                                                to={`/edit/${comp._id.toString()}`}
-                                                className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
-                                            >
-                                                Edit
-                                            </Link>
-                                        </div>
+                                        <Link
+                                            to={`/edit/${comp._id.toString()}`}
+                                            onClick={e => e.stopPropagation()}
+                                            className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
+                                        >
+                                            Edit
+                                        </Link>
                                     </CardFooter>
                                 </Card>
-                            ))}
+                                );
+                            })}
                         </div>
                     )}
                 </div>

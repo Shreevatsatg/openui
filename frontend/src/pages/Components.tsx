@@ -8,6 +8,7 @@ import { api } from "@/lib/api";
 import { COMPONENT_CATEGORY_OPTIONS } from "@/lib/componentCategories";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Boxes, MousePointerClick, CreditCard, FormInput, TextCursorInput,
   AppWindow, Navigation, Sparkles, Loader, LayoutTemplate,
@@ -127,7 +128,21 @@ export default function ComponentsPage() {
       </div>
 
       {loading ? (
-        <div className="p-12 text-center text-muted-foreground">Loading components...</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={i} className="flex flex-col overflow-hidden border-border/50">
+              <Skeleton className="aspect-[4/3] rounded-none" />
+              <CardHeader className="p-4 pb-0 space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-full" />
+                <Skeleton className="h-3 w-2/3" />
+              </CardHeader>
+              <CardFooter className="p-4 pt-3">
+                <Skeleton className="h-5 w-16 rounded-full" />
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center p-12 mt-4 border border-dashed rounded-lg bg-muted/20 text-center space-y-4">
           <LayoutGrid className="h-12 w-12 text-muted-foreground/50" />
