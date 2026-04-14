@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { LiveProvider, LiveError, LivePreview as ReactLivePreview } from "react-live";
-import { Highlight, themes } from "prism-react-renderer";
+import { themes } from "prism-react-renderer";
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Moon, Sun, Code, Play } from "lucide-react";
+import { ArrowLeft, Moon, Sun } from "lucide-react";
 import { api } from "@/lib/api";
 
 export default function LivePreviewPage() {
@@ -12,7 +12,6 @@ export default function LivePreviewPage() {
   const [code, setCode] = useState("");
   const [theme, setTheme] = useState("dark");
   const [loading, setLoading] = useState(true);
-  const [showCode, setShowCode] = useState(false);
 
   useEffect(() => {
     if (slug === "sandbox") {
@@ -42,74 +41,49 @@ export default function LivePreviewPage() {
   const strippedCode = preprocessCode(code);
 
   if (loading) {
-      return <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground">Loading preview...</div>;
+    return <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground">Loading preview...</div>;
   }
 
   if (!code) {
     return (
-        <div className="h-screen w-screen flex flex-col items-center justify-center bg-background text-foreground p-8 font-sans">
-            <h2 className="text-xl font-semibold mb-2">Sandbox Empty</h2>
-            <p className="text-muted-foreground text-sm">No code was found for this component.</p>
-            <Link to="/components" className="mt-4 text-primary hover:underline">Go back</Link>
-        </div>
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-background text-foreground p-8 font-sans">
+        <h2 className="text-xl font-semibold mb-2">Sandbox Empty</h2>
+        <p className="text-muted-foreground text-sm">No code was found for this component.</p>
+        <Link to={slug === 'sandbox' ? '/components' : `/components/${slug}`} className="mt-4 text-primary hover:underline">Go back</Link>
+      </div>
     );
   }
 
   return (
-    <div className={`min-h-screen w-full flex flex-col ${theme === "dark" ? "dark bg-black text-white" : "bg-white text-black"}`} style={{ colorScheme: theme as any }}>
-      
-      {/* Top Bar matching screenshot */}
-      <div className="h-14 flex items-center justify-between px-4 sm:px-6 bg-[#111111] border-b border-[#222] text-zinc-300 select-none z-50 fixed top-0 w-full">
-         <div className="flex items-center gap-4">
-             <Link to="/components" className="flex items-center gap-2 hover:text-white transition-colors text-sm font-medium">
-                 <ArrowLeft className="h-4 w-4" />
-                 Components
-             </Link>
-             <div className="w-[1px] h-4 bg-zinc-700" />
-             <span className="text-sm font-medium text-white">{slug === "sandbox" ? "unsaved-draft" : slug}</span>
-         </div>
+    <div className={`min-h-screen w-full flex flex-col relative ${theme === "dark" ? "dark bg-black text-white" : "bg-white text-black"}`} style={{ colorScheme: theme as any }}>
 
-         <div className="flex items-center gap-4">
-             <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="hover:text-white transition-colors">
-                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-             </button>
-             <div className="w-[1px] h-4 bg-zinc-700" />
-             <button 
-                onClick={() => setShowCode(!showCode)} 
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${showCode ? 'bg-white text-black' : 'bg-zinc-800 text-white hover:bg-zinc-700'}`}
-             >
-                 {showCode ? <Play className="h-4 w-4" /> : <Code className="h-4 w-4" />}
-                 {showCode ? "Preview" : "Code"}
-             </button>
-         </div>
+      {/* Dynamic Floating Bottom Island Navbar */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center bg-[#1C1C1E] text-zinc-300 rounded-full p-1.5 shadow-2xl border border-white/10 backdrop-blur-md">
+        <Link to={slug === 'sandbox' ? '/components' : `/components/${slug}`} className="flex items-center gap-2 hover:text-white transition-colors text-[13px] font-medium px-4 py-1.5 rounded-full hover:bg-white/10">
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Back
+        </Link>
+
+        <div className="w-[1px] h-5 bg-zinc-700/80 mx-1" />
+
+        <span className="text-[13px] font-medium text-white px-3 max-w-[200px] sm:max-w-[300px] truncate">
+          {slug === "sandbox" ? "unsaved-draft" : slug}
+        </span>
+
+        <div className="w-[1px] h-5 bg-zinc-700/80 mx-1" />
+
+        <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 ml-1" title="Toggle Theme">
+          {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
       </div>
 
-      <div className="flex-1 mt-14 flex overflow-hidden relative">
-        {showCode ? (
-            <div className={`w-full h-full overflow-auto ${theme === "dark" ? "bg-black" : "bg-white"}`}>
-                <Highlight theme={theme === "dark" ? themes.vsDark : themes.github} code={code} language="tsx">
-                  {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                    <pre className={`${className} p-8 text-sm font-mono m-0 min-h-full`} style={{ ...style, background: "transparent" }}>
-                      {tokens.map((line, i) => (
-                        <div key={i} {...getLineProps({ line })}>
-                          <span className="inline-block w-8 text-right opacity-30 select-none mr-4">{i + 1}</span>
-                          {line.map((token, key) => (
-                            <span key={key} {...getTokenProps({ token })} />
-                          ))}
-                        </div>
-                      ))}
-                    </pre>
-                  )}
-                </Highlight>
-            </div>
-        ) : (
-            <LiveProvider code={strippedCode} theme={theme === "dark" ? themes.vsDark : themes.github} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
-                <div className="w-full h-full overflow-auto p-4 md:p-8 flex items-center justify-center">
-                    <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
-                </div>
-                <LiveError className="fixed bottom-4 left-4 right-4 md:right-auto md:max-w-2xl z-50 bg-destructive text-destructive-foreground p-4 rounded-md shadow-lg text-xs font-mono overflow-auto max-h-60" />
-            </LiveProvider>
-        )}
+      <div className="flex-1 flex overflow-hidden">
+        <LiveProvider code={strippedCode} theme={theme === "dark" ? themes.vsDark : themes.github} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
+          <div className="w-full h-full overflow-auto p-4 md:p-8 pb-32 flex items-center justify-center">
+            <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
+          </div>
+          <LiveError className="fixed top-4 left-4 right-4 md:right-auto md:max-w-2xl z-50 bg-destructive text-destructive-foreground p-4 rounded-md shadow-lg text-xs font-mono overflow-auto max-h-60" />
+        </LiveProvider>
       </div>
     </div>
   );
