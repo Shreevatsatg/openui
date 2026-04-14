@@ -10,9 +10,8 @@ import Components from "./pages/Components";
 import ComponentDetail from "./pages/ComponentDetail";
 import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
-import Submit from "./pages/Submit";
+import ComponentEditor from "./pages/ComponentEditor";
 import Admin from "./pages/Admin";
-import EditComponent from "./pages/EditComponent";
 import ContributeLayout from "./pages/contribute/ContributeLayout";
 import ContributeIndex from "./pages/contribute/ContributeIndex";
 import ContributeWorkflow from "./pages/contribute/ContributeWorkflow";
@@ -83,8 +82,8 @@ const CentralRouter = () => {
         </Route>
 
         <Route path="/profile" element={<Profile />} />
-        <Route path="/submit" element={<Submit />} />
-        <Route path="/edit/:id" element={<EditComponent />} />
+        <Route path="/submit" element={<ComponentEditor />} />
+        <Route path="/edit/:id" element={<ComponentEditor />} />
         <Route path="/admin" element={user.role === "admin" ? <Admin /> : <Navigate to="/" replace />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />

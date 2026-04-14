@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LiveProvider, LiveError, LivePreview as ReactLivePreview } from "react-live";
 import { Highlight, themes } from "prism-react-renderer";
 import { Check, Clipboard, Moon, Play, Sun } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -30,6 +32,16 @@ export function LivePreviewSandbox({ code, themeSupport = "both" }: LivePreviewP
   const siteTheme = siteIsDark ? "dark" : "light";
   const siteClamped = clampPreviewTheme(siteTheme, themeSupport);
   const effectivePreview = lockedPreview !== null ? clampPreviewTheme(lockedPreview, themeSupport) : siteClamped;
+
+  const preprocessCode = (inputCode: string) => {
+    return inputCode
+      .replace(/import\s+.*?from\s+['"].*?['"];?\n?/g, "")
+      .replace(/export\s+default\s+function/g, "function")
+      .replace(/export\s+function/g, "function")
+      .replace(/export\s+const/g, "const");
+  };
+
+  const strippedCode = preprocessCode(code);
 
   useEffect(() => {
     if (lockedPreview === null) return;
@@ -167,7 +179,7 @@ export function LivePreviewSandbox({ code, themeSupport = "both" }: LivePreviewP
             className="absolute p-8 flex items-center justify-center overflow-auto bg-dot-pattern transition-all duration-300 ease-in-out border-x border-dashed border-border/50 h-full"
             style={{ width: viewportWidths[viewport] }}
           >
-            <LiveProvider code={code} theme={themes.vsDark} noInline={true}>
+            <LiveProvider code={strippedCode} theme={themes.vsDark} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
               <div
                 className={`w-full flex items-center justify-center rounded-md shadow-sm border p-4 ${
                   effectivePreview === "dark" ? "dark bg-black text-white" : "bg-white text-black"
