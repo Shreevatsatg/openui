@@ -43,9 +43,6 @@ export default function ComponentDetailPage() {
             <div className="mt-2 text-sm text-muted-foreground">
               By {component.authorId?.name || "Unknown"}
             </div>
-            <Badge variant="outline" className="mt-3 capitalize">
-              Theme support: {component.themeSupport || "both"}
-            </Badge>
           </div>
 
           {(user?.role === "admin" ||

@@ -178,19 +178,6 @@ export default function ComponentEditor() {
                 <Input name="tags" placeholder="react, tailwind (comma separated)" value={formData.tags} onChange={handleChange} className="h-9" />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">Preview Image URL</label>
-                <Input name="previewImage" type="url" placeholder="https://" value={formData.previewImage} onChange={handleChange} className="h-9" />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">Theme Support</label>
-                <select name="themeSupport" value={formData.themeSupport} onChange={handleChange} className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:ring-1 focus-visible:ring-primary outline-none">
-                  <option value="both">Both (Recommended)</option>
-                  <option value="light">Light only</option>
-                  <option value="dark">Dark only</option>
-                </select>
-              </div>
             </form>
           </div>
 
