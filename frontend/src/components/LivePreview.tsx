@@ -111,18 +111,6 @@ export function LivePreviewSandbox({ code, themeSupport = "both" }: LivePreviewP
                 >
                   {effectivePreview === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </Button>
-                {lockedPreview !== null && (
-                  <button
-                    type="button"
-                    onClick={() => setLockedPreview(null)}
-                    className="text-[10px] font-medium text-muted-foreground hover:text-foreground underline-offset-2 hover:underline px-1"
-                  >
-                    Match site
-                  </button>
-                )}
-                <span className="hidden sm:inline text-[10px] uppercase tracking-wide text-muted-foreground max-w-[8rem] truncate">
-                  {lockedPreview === null ? "Preview: site" : "Preview: only"}
-                </span>
               </div>
             )}
             <Button variant={viewport === "desktop" ? "secondary" : "ghost"} size="sm" onClick={() => setViewport("desktop")} className="h-8 px-2" title="Desktop">

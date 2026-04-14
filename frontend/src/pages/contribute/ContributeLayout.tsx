@@ -5,6 +5,13 @@ import { useState } from "react";
 
 const sections = [
   {
+    label: "Installation",
+    items: [
+      { to: "/contribute/installation/react", icon: Layers, label: "React + Vite" },
+      { to: "/contribute/installation/nextjs", icon: Layers, label: "Next.js" },
+    ],
+  },
+  {
     label: "Getting Started",
     items: [
       { to: "/contribute", end: true, icon: BookOpen, label: "Overview" },
@@ -13,13 +20,7 @@ const sections = [
       { to: "/contribute/snippets", icon: Code2, label: "Snippets" },
     ],
   },
-  {
-    label: "Installation",
-    items: [
-      { to: "/contribute/installation/react", icon: Layers, label: "React + Vite" },
-      { to: "/contribute/installation/nextjs", icon: Layers, label: "Next.js" },
-    ],
-  },
+  
 ];
 
 export default function ContributeLayout() {
