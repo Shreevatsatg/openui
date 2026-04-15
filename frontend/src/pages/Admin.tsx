@@ -76,18 +76,6 @@ export default function AdminDashboardPage() {
             <CardTitle className="text-4xl">{data.usersCount}</CardTitle>
           </CardHeader>
         </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Theme-safe (Both)</CardDescription>
-            <CardTitle className="text-4xl">{bothThemeCount}</CardTitle>
-          </CardHeader>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription>Single-theme</CardDescription>
-            <CardTitle className="text-4xl">{singleThemeCount}</CardTitle>
-          </CardHeader>
-        </Card>
       </div>
 
       <Card className="mb-8 border-border/50">

@@ -25,9 +25,9 @@ export default function ProfilePage() {
     useEffect(() => {
         if (!user) return;
         api.get('/api/components/me')
-        .then(res => setUserComponents(res.data))
-        .catch(err => console.error(err))
-        .finally(() => setLoading(false));
+            .then(res => setUserComponents(res.data))
+            .catch(err => console.error(err))
+            .finally(() => setLoading(false));
     }, [user]);
 
     if (authLoading || loading) return <div className="p-8 text-center text-zinc-400">Loading profile...</div>;
@@ -100,40 +100,40 @@ export default function ProfilePage() {
                                     : <div className="flex flex-col">{children}</div>;
 
                                 return (
-                                <Card key={comp._id.toString()} className={`flex flex-col overflow-hidden p-0 ${isApproved ? "cursor-pointer hover:border-primary/50 transition-colors" : ""}`}>
-                                    <CardWrapper>
-                                    <div className="aspect-[4/3] border-b border-border/50 bg-muted/20">
-                                        <MiniLivePreview code={comp.code} themeSupport={comp.themeSupport || "both"} />
-                                    </div>
-                                    <CardHeader className="pb-2">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div className="flex items-center gap-2">
-                                                <Badge variant="outline" className="capitalize">{comp.category}</Badge>
-                                                <Badge variant="outline" className="capitalize">Theme: {comp.themeSupport || "both"}</Badge>
+                                    <Card key={comp._id.toString()} className={`flex flex-col overflow-hidden p-0 ${isApproved ? "cursor-pointer hover:border-primary/50 transition-colors" : ""}`}>
+                                        <CardWrapper>
+                                            <div className="aspect-[4/3] border-b border-border/50 bg-muted/20">
+                                                <MiniLivePreview code={comp.code} themeSupport={comp.themeSupport || "both"} />
                                             </div>
-                                            <Badge
-                                                variant={comp.status === "approved" ? "default" : comp.status === "rejected" ? "destructive" : "secondary"}
-                                                className={`capitalize ${comp.status === "approved" ? "text-background" : comp.status === "rejected" ? "text-red-500 bg-red-100/10 hover:bg-red-100/20" : ""}`}
+                                            <CardHeader className="pb-2">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <Badge variant="outline" className="capitalize">{comp.category}</Badge>
+
+                                                    </div>
+                                                    <Badge
+                                                        variant={comp.status === "approved" ? "default" : comp.status === "rejected" ? "destructive" : "secondary"}
+                                                        className={`capitalize ${comp.status === "approved" ? "text-background" : comp.status === "rejected" ? "text-red-500 bg-red-100/10 hover:bg-red-100/20" : ""}`}
+                                                    >
+                                                        {comp.status}
+                                                    </Badge>
+                                                </div>
+                                                <CardTitle className={`text-lg ${isApproved ? "group-hover:text-primary transition-colors" : ""}`}>
+                                                    {comp.title}
+                                                </CardTitle>
+                                            </CardHeader>
+                                        </CardWrapper>
+                                        <CardFooter className="mt-auto pt-4 text-xs text-muted-foreground flex justify-between items-center border-t border-border">
+                                            <span>Submitted on {new Date(comp.createdAt).toLocaleDateString()}</span>
+                                            <Link
+                                                to={`/edit/${comp._id.toString()}`}
+                                                onClick={e => e.stopPropagation()}
+                                                className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
                                             >
-                                                {comp.status}
-                                            </Badge>
-                                        </div>
-                                        <CardTitle className={`text-lg ${isApproved ? "group-hover:text-primary transition-colors" : ""}`}>
-                                            {comp.title}
-                                        </CardTitle>
-                                    </CardHeader>
-                                    </CardWrapper>
-                                    <CardFooter className="mt-auto pt-4 text-xs text-muted-foreground flex justify-between items-center border-t border-border">
-                                        <span>Submitted on {new Date(comp.createdAt).toLocaleDateString()}</span>
-                                        <Link
-                                            to={`/edit/${comp._id.toString()}`}
-                                            onClick={e => e.stopPropagation()}
-                                            className="px-3 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md transition-colors"
-                                        >
-                                            Edit
-                                        </Link>
-                                    </CardFooter>
-                                </Card>
+                                                Edit
+                                            </Link>
+                                        </CardFooter>
+                                    </Card>
                                 );
                             })}
                         </div>

@@ -170,8 +170,8 @@ export function LivePreviewSandbox({ code, themeSupport = "both", slug = "sandbo
             style={{ colorScheme: effectivePreview }}
           >
             <LiveProvider code={strippedCode} theme={themes.vsDark} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
-              <div className="w-full min-h-full p-8">
-                <ReactLivePreview className="w-full" />
+              <div className="w-full min-h-full p-8 flex items-center justify-center">
+                <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
               </div>
               <LiveError className="absolute bottom-4 left-4 right-4 bg-destructive text-destructive-foreground p-3 rounded text-xs font-mono overflow-auto max-h-40" />
             </LiveProvider>
