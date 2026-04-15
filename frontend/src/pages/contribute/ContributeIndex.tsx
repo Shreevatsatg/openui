@@ -22,7 +22,7 @@ export default function ContributeIndex() {
             <Link to="/contribute/installation/react">Install — React + Vite</Link>
           </Button>
           <Button variant="outline" asChild>
-            <Link to="/contribute/installation/nextjs">Install — Next.js</Link>
+            <Link to="/contribute/installation/nextjs">Tailwind css</Link>
           </Button>
           <Button variant="secondary" asChild>
             <Link to="/submit">Submit a component</Link>

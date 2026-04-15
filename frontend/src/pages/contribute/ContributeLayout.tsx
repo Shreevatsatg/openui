@@ -8,7 +8,7 @@ const sections = [
     label: "Installation",
     items: [
       { to: "/contribute/installation/react", icon: Layers, label: "React + Vite" },
-      { to: "/contribute/installation/nextjs", icon: Layers, label: "Next.js" },
+
     ],
   },
   {
@@ -20,7 +20,7 @@ const sections = [
       { to: "/contribute/snippets", icon: Code2, label: "Snippets" },
     ],
   },
-  
+
 ];
 
 export default function ContributeLayout() {

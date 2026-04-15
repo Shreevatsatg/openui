@@ -4,15 +4,15 @@ export default function InstallationNext() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Next.js + Tailwind CSS</h1>
+        <h1 className="text-3xl font-bold tracking-tight"> Tailwind CSS</h1>
         <p className="mt-2 max-w-3xl text-muted-foreground">
-          Use the App Router and Tailwind v4 when starting a new project. Snippets from OpenUI paste into client components.
+          Use Tailwind v4 when starting a new project. Snippets from OpenUI paste into client components.
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>1. Create a Next.js app</CardTitle>
+          <CardTitle>1. Create react app</CardTitle>
           <CardDescription>TypeScript, ESLint, Tailwind, and App Router.</CardDescription>
         </CardHeader>
         <CardContent>
