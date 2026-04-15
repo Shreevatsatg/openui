@@ -40,7 +40,7 @@ export default function Footer() {
         {/* Right: Links */}
         <div className="flex gap-5 items-center text-sm text-muted-foreground">
           <Link
-            to="https://github.com"
+            to="https://github.com/Shreevatsatg/openui"
             target="_blank"
             className="hover:text-foreground transition-colors duration-200 flex items-center gap-1.5"
           >
