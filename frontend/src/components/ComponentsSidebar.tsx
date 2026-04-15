@@ -29,6 +29,8 @@ export function ComponentsSidebar() {
   // expandedCategories is a Set — multiple can be open, or restrict to one below
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
+  const urlCategory = new URLSearchParams(location.search).get("category");
+
   useEffect(() => {
     api.get("/api/components").then((res) => setComponents(res.data)).catch(() => {});
   }, []);
@@ -59,24 +61,18 @@ export function ComponentsSidebar() {
   }, [components]);
 
   const isOnList = location.pathname === "/components";
-  const urlCategory = new URLSearchParams(location.search).get("category") || "";
-
-  /**
-   * Clicking a category label ONLY toggles the accordion.
-   * It does NOT navigate anywhere. Navigation only happens when
-   * the user clicks an individual component inside the accordion.
-   */
   const handleCategoryToggle = useCallback((slug: string) => {
+    navigate(`/components?category=${slug}`);
     setExpandedCategories((prev) => {
       const next = new Set(prev);
-      if (next.has(slug)) {
-        next.delete(slug);
-      } else {
+      if (!next.has(slug)) {
         next.add(slug);
+      } else if (urlCategory === slug) {
+        next.delete(slug);
       }
       return next;
     });
-  }, []);
+  }, [navigate, urlCategory]);
 
   const handleAllClick = useCallback(() => {
     navigate("/components");

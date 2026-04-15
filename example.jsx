@@ -27,7 +27,7 @@ import { Sparkles, ArrowRight, Search, Menu, X, Check, Bell, Home, Settings, Use
 */
 export function MagicalButton() {
   return (
-    <motion.button 
+    <motion.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className="relative group px-8 py-3 rounded-full bg-black text-white font-medium overflow-hidden"
@@ -55,16 +55,16 @@ export function MagicalButton() {
 */
 export function ArrowButton() {
   return (
-    <motion.button 
+    <motion.button
       whileHover="hover"
-      className="group flex items-center gap-4 bg-zinc-900 border border-zinc-800 text-white px-6 py-2.5 rounded-full"
+      className="group flex items-center gap-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 border-none text-white px-6 py-2.5 rounded-full shadow-lg shadow-fuchsia-600/30"
     >
       <span className="font-medium text-sm">Explore Features</span>
-      <motion.div 
+      <motion.div
         variants={{
-          hover: { x: 5 }
+          hover: { x: 5, backgroundColor: "#fff", color: "#d946ef" }
         }}
-        className="bg-white text-black rounded-full p-1.5"
+        className="bg-white/20 text-white rounded-full p-1.5 transition-colors"
       >
         <ArrowRight className="w-3.5 h-3.5" />
       </motion.div>
@@ -83,24 +83,25 @@ export function ArrowButton() {
 */
 export function GlassCard() {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -5 }}
-      className="max-w-sm p-8 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl relative overflow-hidden"
+      className="max-w-sm p-8 rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl relative overflow-hidden"
     >
-      <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500 rounded-full blur-[80px] opacity-50" />
-      <h3 className="text-xl font-medium text-white mb-2">Pro Plan</h3>
-      <div className="flex items-end gap-1 mb-6 text-white">
-        <span className="text-4xl font-bold">$29</span>
-        <span className="text-zinc-400 text-sm mb-1">/mo</span>
+      <div className="absolute -top-20 -right-20 w-56 h-56 bg-cyan-500 rounded-full blur-[80px] opacity-40 mix-blend-screen" />
+      <div className="absolute -bottom-20 -left-20 w-56 h-56 bg-fuchsia-500 rounded-full blur-[80px] opacity-40 mix-blend-screen" />
+      <h3 className="text-xl font-medium text-white mb-2 relative z-10">Pro Plan</h3>
+      <div className="flex items-end gap-1 mb-6 text-white relative z-10">
+        <span className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 to-fuchsia-300">$29</span>
+        <span className="text-zinc-300 text-sm mb-1">/mo</span>
       </div>
-      <div className="space-y-3 mb-8">
+      <div className="space-y-3 mb-8 relative z-10">
         {['Unlimited projects', 'Advanced Analytics', 'Priority Support'].map((ft, i) => (
-          <div key={i} className="flex items-center gap-3 text-sm text-zinc-300">
-            <Check className="w-4 h-4 text-blue-400" /> {ft}
+          <div key={i} className="flex items-center gap-3 text-sm text-zinc-200">
+            <Check className="w-4 h-4 text-cyan-400 font-bold" /> {ft}
           </div>
         ))}
       </div>
-      <button className="w-full py-3 rounded-full bg-white text-black font-medium hover:bg-zinc-200 transition">
+      <button className="relative w-full py-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:from-cyan-400 hover:to-blue-400 transition-colors shadow-[0_0_20px_rgba(6,182,212,0.4)] z-10">
         Upgrade Now
       </button>
     </motion.div>
@@ -116,8 +117,8 @@ export function CyberCard() {
   return (
     <div className="group relative w-72 h-96 bg-zinc-950 border border-zinc-900 p-6 flex flex-col justify-end overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent z-10" />
-      <motion.div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-400 via-transparent to-transparent" 
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-400 via-transparent to-transparent"
       />
       <div className="relative z-20">
         <span className="text-xs font-mono text-green-400 mb-2 block tracking-widest uppercase">New Release</span>
@@ -147,27 +148,29 @@ export function WaitlistForm() {
   };
 
   return (
-    <div className="p-8 bg-zinc-900 rounded-2xl max-w-md w-full border border-zinc-800 shadow-xl">
-      <h2 className="text-2xl font-bold text-white mb-2">Join the Beta</h2>
-      <p className="text-zinc-400 text-sm mb-6">Enter your email to get early access.</p>
-      
-      <form onSubmit={handleSubmit} className="relative">
+    <div className="relative p-8 bg-black rounded-2xl max-w-md w-full border border-zinc-800 shadow-2xl overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500 rounded-full blur-[100px] opacity-20" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20" />
+      <h2 className="text-2xl font-bold text-white mb-2 relative z-10">Join the Beta</h2>
+      <p className="text-zinc-400 text-sm mb-6 relative z-10">Enter your email to get early access.</p>
+
+      <form onSubmit={handleSubmit} className="relative z-10">
         <AnimatePresence mode="wait">
           {status === "success" ? (
-            <motion.div 
+            <motion.div
               key="success"
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              className="bg-green-500/10 border border-green-500/20 text-green-400 p-4 rounded-xl flex items-center gap-3"
+              className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 p-4 rounded-xl flex items-center gap-3 shadow-[0_0_20px_rgba(16,185,129,0.15)]"
             >
-              <Check className="w-5 h-5" /> You're on the list!
+              <Check className="w-5 h-5 flex-shrink-0" /> You're on the beautiful list!
             </motion.div>
           ) : (
             <motion.div key="form" exit={{ opacity: 0, y: -10 }} className="flex gap-2">
-              <input 
-                type="email" required placeholder="name@company.com" 
-                className="flex-1 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white outline-none focus:border-blue-500 transition-colors"
+              <input
+                type="email" required placeholder="name@company.com"
+                className="flex-1 bg-zinc-900 border border-zinc-700/50 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 transition-colors shadow-inner"
               />
-              <button disabled={status === "loading"} className="bg-white text-black px-6 py-3 rounded-xl font-medium hover:bg-zinc-200 transition disabled:opacity-50 min-w-[120px]">
+              <button disabled={status === "loading"} className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition disabled:opacity-50 min-w-[120px] shadow-lg shadow-emerald-500/20">
                 {status === "loading" ? "Joining..." : "Join"}
               </button>
             </motion.div>
@@ -191,22 +194,22 @@ export function ExpandingSearch() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <motion.div 
+    <motion.div
       initial={false}
       animate={{ width: isExpanded ? 240 : 44 }}
       className="relative h-11 bg-zinc-900 border border-zinc-800 rounded-full overflow-hidden flex items-center"
     >
-      <button 
+      <button
         onClick={() => setIsExpanded(true)}
         className="absolute left-0 w-11 h-11 flex items-center justify-center text-zinc-400 hover:text-white z-10"
       >
         <Search className="w-4 h-4" />
       </button>
-      <input 
+      <input
         type="text"
         placeholder="Search components..."
         onFocus={() => setIsExpanded(true)}
-        onBlur={(e) => { if(!e.target.value) setIsExpanded(false) }}
+        onBlur={(e) => { if (!e.target.value) setIsExpanded(false) }}
         className="w-full h-full bg-transparent pl-11 pr-4 text-sm text-white outline-none placeholder:text-zinc-600"
       />
     </motion.div>
@@ -228,16 +231,16 @@ export function SpringModal() {
   return (
     <>
       <button onClick={() => setIsOpen(true)} className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">Open Spring Modal</button>
-      
+
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -307,7 +310,7 @@ export function MacDock() {
 export function TextReveal() {
   const text = "Designing the future, one component at a time.";
   const words = text.split(" ");
-  
+
   return (
     <h1 className="text-4xl font-bold text-white flex flex-wrap gap-x-2">
       {words.map((word, i) => (
@@ -335,13 +338,15 @@ export function TextReveal() {
 */
 export function BouncingDots() {
   return (
-    <div className="flex gap-2">
-      {[1, 2, 3].map((i) => (
+    <div className="flex gap-2 p-6 rounded-2xl bg-zinc-950 border border-zinc-800 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-500/10 via-transparent to-transparent" />
+      {['#3b82f6', '#8b5cf6', '#ec4899'].map((color, i) => (
         <motion.div
-          key={i}
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
-          className="w-3 h-3 bg-blue-500 rounded-full"
+           key={i}
+           animate={{ y: [0, -12, 0], scale: [1, 1.1, 1] }}
+           transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+           className="w-3.5 h-3.5 rounded-full shadow-[0_0_10px_currentColor] relative"
+           style={{ backgroundColor: color, color: color }}
         />
       ))}
     </div>
@@ -365,8 +370,8 @@ export function BentoGrid() {
         <p className="opacity-80 text-sm">Visualize all your core metrics</p>
       </div>
       <div className="col-span-1 bg-zinc-900 border border-zinc-800 rounded-3xl p-6 text-white flex flex-col justify-between">
-         <h4 className="font-semibold">Quick Stats</h4>
-         <div className="text-3xl font-bold text-green-400">+24%</div>
+        <h4 className="font-semibold">Quick Stats</h4>
+        <div className="text-3xl font-bold text-green-400">+24%</div>
       </div>
       <div className="col-span-1 bg-zinc-900 border border-zinc-800 rounded-3xl p-6" />
       <div className="col-span-2 bg-zinc-900 border border-zinc-800 rounded-3xl p-6" />

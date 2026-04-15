@@ -114,7 +114,7 @@ export default function ComponentEditor() {
       } else {
         await api.post("/api/components", formData);
         setMessage({ type: "success", text: "Component submitted! Redirecting..." });
-        setTimeout(() => navigate("/components"), 2000);
+        setTimeout(() => navigate("/profile"), 2000);
       }
     } catch (err: any) {
       setMessage({ type: "error", text: err.response?.data?.message || (isEditMode ? "Failed to update" : "Failed to submit") });
@@ -183,7 +183,7 @@ export default function ComponentEditor() {
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider flex items-center justify-between">
                   <span>Dependencies</span>
-                  <button type="button" onClick={() => setFormData({...formData, dependencies: [...formData.dependencies, ""]})} className="text-primary hover:underline hover:text-primary/80 lowercase flex items-center gap-1">
+                  <button type="button" onClick={() => setFormData({ ...formData, dependencies: [...formData.dependencies, ""] })} className="text-primary hover:underline hover:text-primary/80 lowercase flex items-center gap-1">
                     <Plus className="h-3 w-3" /> Add
                   </button>
                 </label>
@@ -193,13 +193,13 @@ export default function ComponentEditor() {
                       <Input value={dep} onChange={(e) => {
                         const newDeps = [...formData.dependencies];
                         newDeps[idx] = e.target.value;
-                        setFormData({...formData, dependencies: newDeps});
+                        setFormData({ ...formData, dependencies: newDeps });
                       }} placeholder="e.g. lucide-react" className="h-9 flex-1" />
                       <Button type="button" variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-destructive shrink-0" onClick={() => {
                         const newDeps = formData.dependencies.filter((_, i) => i !== idx);
-                        setFormData({...formData, dependencies: newDeps});
+                        setFormData({ ...formData, dependencies: newDeps });
                       }}>
-                         <X className="h-4 w-4" />
+                        <X className="h-4 w-4" />
                       </Button>
                     </div>
                   ))}

@@ -166,7 +166,7 @@ export default function ComponentsPage() {
           {filtered.map((comp: any) => (
             <Card
               key={comp._id.toString()}
-              className="flex flex-col overflow-hidden group hover:border-border transition-colors border-border/50 bg-background shadow-xs"
+              className="flex flex-col overflow-hidden group hover:border-border transition-colors border-border/50 bg-background shadow-xs relative"
             >
               <div className="aspect-[4/3] bg-muted/20 border-b border-border/50 relative group flex items-center justify-center p-0 overflow-hidden">
                 {comp.previewImage ? (
