@@ -41,9 +41,7 @@ export default function AdminDashboardPage() {
   if (loading) return <div className="p-8 text-center text-muted-foreground">Loading admin panel...</div>;
   if (!data) return <div className="p-8 text-center text-destructive">Not authorized or failed to fetch.</div>;
 
-  const allSubmissions = [...data.pendingSubmissions, ...data.approvedSubmissions, ...data.rejectedSubmissions];
-  const bothThemeCount = allSubmissions.filter((sub) => (sub.themeSupport ?? "both") === "both").length;
-  const singleThemeCount = allSubmissions.length - bothThemeCount;
+
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-6xl">

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LivePreviewSandbox } from "@/components/LivePreview";
-import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
 import { Highlight, themes } from "prism-react-renderer";
 import { Clipboard, Check } from "lucide-react";
