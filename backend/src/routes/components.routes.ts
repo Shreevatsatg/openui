@@ -60,14 +60,20 @@ router.get("/:slug", async (req: Request, res: Response): Promise<void> => {
 // Submit a new component (protected)
 router.post("/", protect, async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { title, slug, description, category, code, tags, themeSupport } = req.body;
+    const { title, slug, description, category, code, tags, themeSupport, dependencies, usage } = req.body;
+    
+    // Auto-generate a unique slug using the title and a timestamp if not provided
+    const generatedSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now().toString(36);
+
     const component = await Component.create({
       title,
-      slug,
+      slug: generatedSlug,
       description,
       category,
       code,
       tags,
+      dependencies: dependencies || [],
+      usage: usage || "",
       themeSupport: themeSupport || "both",
       authorId: req.user._id,
       status: req.user.role === "admin" ? "approved" : "pending",
@@ -92,13 +98,15 @@ router.put("/:id", protect, async (req: AuthRequest, res: Response): Promise<voi
       return;
     }
 
-    const { title, slug, description, category, code, tags, themeSupport } = req.body;
+    const { title, slug, description, category, code, tags, themeSupport, dependencies, usage } = req.body;
     component.title = title || component.title;
     component.slug = slug || component.slug;
     component.description = description || component.description;
     component.category = category || component.category;
     component.code = code || component.code;
     component.tags = tags || component.tags;
+    if (dependencies !== undefined) component.dependencies = dependencies;
+    if (usage !== undefined) component.usage = usage;
     component.themeSupport = themeSupport || component.themeSupport;
     
     // If edited by user, send back to pending unless admin
