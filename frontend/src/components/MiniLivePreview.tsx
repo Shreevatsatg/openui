@@ -27,13 +27,15 @@ export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreview
 
     // Auto-inject render() if it's missing
     if (!processedCode.includes("render(")) {
+      const hasThemeProp = /theme[?]?\s*[:=]/.test(inputCode);
+      const themePropStr = hasThemeProp ? ` theme={previewTheme}` : "";
       const exportMatch = processedCode.match(/export\s+(?:default\s+)?(?:function\s+|const\s+)([A-Z]\w*)/);
       if (exportMatch && exportMatch[1]) {
-        processedCode += `\n\nrender(<${exportMatch[1]} />);`;
+        processedCode += `\n\nrender(<${exportMatch[1]}${themePropStr} />);`;
       } else {
         const fallbackMatch = processedCode.match(/function\s+([A-Z]\w*)/) || processedCode.match(/const\s+([A-Z]\w*)\s*=/);
         if (fallbackMatch && fallbackMatch[1]) {
-          processedCode += `\n\nrender(<${fallbackMatch[1]} />);`;
+          processedCode += `\n\nrender(<${fallbackMatch[1]}${themePropStr} />);`;
         }
       }
     }
@@ -54,7 +56,7 @@ export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreview
       style={{ colorScheme: preview }}
     >
       <div className="w-full h-full pointer-events-none scale-[0.85] origin-top flex items-center justify-center p-4">
-        <LiveProvider code={strippedCode} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
+        <LiveProvider code={strippedCode} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence, previewTheme: preview }}>
           <ReactLivePreview className="w-full h-full flex items-center justify-center" />
         </LiveProvider>
       </div>

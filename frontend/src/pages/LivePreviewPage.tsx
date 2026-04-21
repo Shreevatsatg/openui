@@ -35,13 +35,15 @@ export default function LivePreviewPage() {
 
     // Auto-inject render() if it's missing
     if (!processedCode.includes("render(")) {
+      const hasThemeProp = /theme[?]?\s*[:=]/.test(inputCode);
+      const themePropStr = hasThemeProp ? ` theme={previewTheme}` : "";
       const exportMatch = processedCode.match(/export\s+(?:default\s+)?(?:function\s+|const\s+)([A-Z]\w*)/);
       if (exportMatch && exportMatch[1]) {
-        processedCode += `\n\nrender(<${exportMatch[1]} />);`;
+        processedCode += `\n\nrender(<${exportMatch[1]}${themePropStr} />);`;
       } else {
         const fallbackMatch = processedCode.match(/function\s+([A-Z]\w*)/) || processedCode.match(/const\s+([A-Z]\w*)\s*=/);
         if (fallbackMatch && fallbackMatch[1]) {
-          processedCode += `\n\nrender(<${fallbackMatch[1]} />);`;
+          processedCode += `\n\nrender(<${fallbackMatch[1]}${themePropStr} />);`;
         }
       }
     }
@@ -93,7 +95,7 @@ export default function LivePreviewPage() {
       </div>
 
       <div className="flex-1 flex overflow-hidden">
-        <LiveProvider code={strippedCode} theme={theme === "dark" ? themes.vsDark : themes.github} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence }}>
+        <LiveProvider code={strippedCode} theme={theme === "dark" ? themes.vsDark : themes.github} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence, previewTheme: theme }}>
           <div className="w-full h-full overflow-auto p-4 md:p-8 pb-32 flex items-center justify-center">
             <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
           </div>
