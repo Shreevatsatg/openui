@@ -47,6 +47,22 @@ export default function ComponentEditor() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
+  const lineNumberRef = useRef<HTMLSpanElement>(null);
+  const [lineNumWidth, setLineNumWidth] = useState(48); // fallback px
+
+  // Measure the line number column width and keep it in sync on every resize
+  useEffect(() => {
+    if (!lineNumberRef.current) return;
+    const measure = () => {
+      if (lineNumberRef.current) {
+        setLineNumWidth(lineNumberRef.current.getBoundingClientRect().width);
+      }
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(lineNumberRef.current);
+    return () => ro.disconnect();
+  }, [formData.code]); // re-measure when code changes (line count affects column width)
 
   useEffect(() => {
     if (!isEditMode || authLoading || !user) return;
@@ -259,7 +275,7 @@ export default function ComponentEditor() {
         </div>
 
         <div className="flex-1 flex flex-row min-h-0 bg-[#1e1e1e]" ref={containerRef}>
-          {/* Component 1: Code Editor */}
+          {/* Code Editor */}
           {ideView !== "preview" && (
             <div
               className={`relative flex flex-col min-h-0 bg-[#1E1E1E] ${ideView === "split" ? "border-r border-[#333]" : "flex-1"}`}
@@ -276,7 +292,12 @@ export default function ComponentEditor() {
                     >
                       {tokens.map((line, i) => (
                         <div key={i} {...getLineProps({ line })} className="table-row">
-                          <span className="table-cell text-right w-8 opacity-30 select-none pr-4 text-xs">{i + 1}</span>
+                          <span
+                            ref={i === 0 ? lineNumberRef : undefined}
+                            className="table-cell text-right w-8 opacity-30 select-none pr-4 text-xs"
+                          >
+                            {i + 1}
+                          </span>
                           <span className="table-cell">
                             {line.map((token, key) => (
                               <span key={key} {...getTokenProps({ token })} />
@@ -295,8 +316,13 @@ export default function ComponentEditor() {
                   onScroll={syncScroll}
                   required
                   spellCheck={false}
-                  className="absolute inset-0 w-full h-full p-4 pl-[3.25rem] text-[13px] leading-relaxed font-mono bg-transparent text-transparent caret-white resize-none outline-none border-none"
-                  style={{ caretColor: "white", tabSize: 2 }}
+                  className="absolute inset-0 w-full h-full p-4 text-[13px] leading-relaxed font-mono bg-transparent text-transparent caret-white resize-none outline-none border-none"
+                  style={{
+                    caretColor: "white",
+                    tabSize: 2,
+                    // 1rem = pre's p-4 left padding, then the exact measured line number column width
+                    paddingLeft: `calc(1rem + ${lineNumWidth}px)`,
+                  }}
                 />
               </div>
             </div>
@@ -310,7 +336,7 @@ export default function ComponentEditor() {
             />
           )}
 
-          {/* Component 2: Live Preview Sandbox */}
+          {/* Live Preview Sandbox */}
           {ideView !== "code" && (
             <div
               className="bg-muted/30 relative flex flex-col min-h-0 overflow-hidden"
