@@ -4,6 +4,9 @@ import { Highlight, themes } from "prism-react-renderer";
 import { Check, Clipboard, Moon, Play, Sun, Maximize } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import * as OGL from "ogl";
+import * as THREE from "three";
+import { gsap } from "gsap";
 import { Button } from "./ui/button";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -169,7 +172,7 @@ export function LivePreviewSandbox({ code, themeSupport = "both", slug = "sandbo
             }`}
             style={{ colorScheme: effectivePreview }}
           >
-            <LiveProvider code={strippedCode} theme={themes.vsDark} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: effectivePreview, isDark: effectivePreview === "dark" }}>
+            <LiveProvider code={strippedCode} theme={themes.vsDark} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: effectivePreview, isDark: effectivePreview === "dark", ...OGL, ...THREE, gsap }}>
               <div className="w-full min-h-full p-8 flex items-center justify-center">
                 <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
               </div>

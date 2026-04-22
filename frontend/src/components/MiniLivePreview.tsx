@@ -3,6 +3,9 @@ import { LiveProvider, LivePreview as ReactLivePreview } from "react-live";
 import { useTheme } from "@/context/ThemeContext";
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import * as OGL from "ogl";
+import * as THREE from "three";
+import { gsap } from "gsap";
 
 interface MiniLivePreviewProps {
   code: string;
@@ -54,7 +57,7 @@ export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreview
       style={{ colorScheme: preview }}
     >
       <div className="w-full h-full pointer-events-none scale-[0.85] origin-top flex items-center justify-center p-4">
-        <LiveProvider code={strippedCode} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: preview, isDark: preview === "dark" }}>
+        <LiveProvider code={strippedCode} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: preview, isDark: preview === "dark", ...OGL, ...THREE, gsap }}>
           <ReactLivePreview className="w-full h-full flex items-center justify-center" />
         </LiveProvider>
       </div>
