@@ -93,7 +93,7 @@ export default function LivePreviewPage() {
       </div>
 
       <div className="flex-1 flex overflow-hidden">
-        <LiveProvider code={strippedCode} theme={theme === "dark" ? themes.vsDark : themes.github} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence, previewTheme: theme, isDark: theme === "dark" }}>
+        <LiveProvider code={strippedCode} theme={theme === "dark" ? themes.vsDark : themes.github} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: theme, isDark: theme === "dark" }}>
           <div className="w-full h-full overflow-auto p-4 md:p-8 pb-32 flex items-center justify-center">
             <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
           </div>
