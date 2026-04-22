@@ -120,10 +120,15 @@ export default function ComponentsPage() {
 
       {/* Page heading (desktop) */}
       <div className="mb-8 hidden lg:block">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Components</h1>
+        <h1 className="text-4xl font-bold tracking-tight mb-2">
+          {category
+            ? COMPONENT_CATEGORY_OPTIONS.find((o) => o.slug === category)?.label ?? category
+            : "Components"}
+        </h1>
         <p className="text-lg text-muted-foreground">
-          Beautifully designed components you can copy into your apps.{" "}
-          {category && <span className="text-foreground">Filtered by category.</span>}
+          {category
+            ? <>Filtered by <span className="text-foreground font-medium">"{COMPONENT_CATEGORY_OPTIONS.find((o) => o.slug === category)?.label ?? category}"</span>.</>
+            : "Beautifully designed components you can copy into your apps."}
         </p>
       </div>
 
