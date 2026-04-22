@@ -169,7 +169,7 @@ export function LivePreviewSandbox({ code, themeSupport = "both", slug = "sandbo
             }`}
             style={{ colorScheme: effectivePreview }}
           >
-            <LiveProvider code={strippedCode} theme={themes.vsDark} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence, previewTheme: effectivePreview, isDark: effectivePreview === "dark" }}>
+            <LiveProvider code={strippedCode} theme={themes.vsDark} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: effectivePreview, isDark: effectivePreview === "dark" }}>
               <div className="w-full min-h-full p-8 flex items-center justify-center">
                 <ReactLivePreview className="w-full min-h-full flex items-center justify-center" />
               </div>

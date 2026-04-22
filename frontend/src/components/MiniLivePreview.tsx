@@ -54,7 +54,7 @@ export function MiniLivePreview({ code, themeSupport = "both" }: MiniLivePreview
       style={{ colorScheme: preview }}
     >
       <div className="w-full h-full pointer-events-none scale-[0.85] origin-top flex items-center justify-center p-4">
-        <LiveProvider code={strippedCode} noInline={true} scope={{ React, ...LucideIcons, motion, AnimatePresence, previewTheme: preview, isDark: preview === "dark" }}>
+        <LiveProvider code={strippedCode} noInline={true} scope={{ React, useState: React.useState, useEffect: React.useEffect, useRef: React.useRef, useMemo: React.useMemo, useCallback: React.useCallback, useReducer: React.useReducer, useContext: React.useContext, ...LucideIcons, motion, AnimatePresence, previewTheme: preview, isDark: preview === "dark" }}>
           <ReactLivePreview className="w-full h-full flex items-center justify-center" />
         </LiveProvider>
       </div>
