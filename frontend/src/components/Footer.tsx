@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-const teamMembers = ["Shreevatsa", "Anvith Malya", "Satwik"];
 
 export default function Footer() {
   return (
@@ -20,22 +19,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Center: Team Members */}
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Team
-          </p>
-          <div className="flex gap-3 flex-wrap justify-center">
-            {teamMembers.map((member) => (
-              <span
-                key={member}
-                className="text-sm font-medium text-foreground bg-muted px-3 py-1 rounded-full border border-border/60"
-              >
-                {member}
-              </span>
-            ))}
-          </div>
-        </div>
 
         {/* Right: Links */}
         <div className="flex gap-5 items-center text-sm text-muted-foreground">
