@@ -13,13 +13,7 @@ import Leaderboard from "./pages/Leaderboard";
 import ComponentEditor from "./pages/ComponentEditor";
 import Admin from "./pages/Admin";
 import LivePreviewPage from "./pages/LivePreviewPage";
-import ContributeLayout from "./pages/contribute/ContributeLayout";
 import ContributeIndex from "./pages/contribute/ContributeIndex";
-import ContributeWorkflow from "./pages/contribute/ContributeWorkflow";
-import ContributeThemes from "./pages/contribute/ContributeThemes";
-import ContributeSnippets from "./pages/contribute/ContributeSnippets";
-import InstallationReact from "./pages/contribute/InstallationReact";
-import InstallationNext from "./pages/contribute/InstallationNext";
 import ComponentsShell from "./pages/ComponentsShell";
 
 const Layout = () => (
@@ -48,14 +42,7 @@ const CentralRouter = () => {
             <Route path=":slug" element={<ComponentDetail />} />
           </Route>
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="contribute" element={<ContributeLayout />}>
-            <Route index element={<ContributeIndex />} />
-            <Route path="workflow" element={<ContributeWorkflow />} />
-            <Route path="themes" element={<ContributeThemes />} />
-            <Route path="snippets" element={<ContributeSnippets />} />
-            <Route path="installation/react" element={<InstallationReact />} />
-            <Route path="installation/nextjs" element={<InstallationNext />} />
-          </Route>
+          <Route path="contribute" element={<ContributeIndex />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
@@ -74,14 +61,7 @@ const CentralRouter = () => {
           <Route path=":slug" element={<ComponentDetail />} />
         </Route>
         <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="contribute" element={<ContributeLayout />}>
-          <Route index element={<ContributeIndex />} />
-          <Route path="workflow" element={<ContributeWorkflow />} />
-          <Route path="themes" element={<ContributeThemes />} />
-          <Route path="snippets" element={<ContributeSnippets />} />
-          <Route path="installation/react" element={<InstallationReact />} />
-          <Route path="installation/nextjs" element={<InstallationNext />} />
-        </Route>
+        <Route path="contribute" element={<ContributeIndex />} />
 
         <Route path="/profile" element={<Profile />} />
         <Route path="/submit" element={<ComponentEditor />} />
