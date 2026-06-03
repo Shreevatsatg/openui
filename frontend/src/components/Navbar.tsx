@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import {  Search, User as UserIcon , LayoutGrid, Trophy, GitPullRequest, ShieldCheck } from "lucide-react";
+import { Search, User as UserIcon, LayoutGrid, Trophy, GitPullRequest, ShieldCheck } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, } from "react";
@@ -36,7 +36,7 @@ export function Navbar() {
             to="/"
             className="flex items-center gap-2 font-semibold text-bold tracking-tight text-foreground mr-4 shrink-0 text-2xl"
           >
-            <img src='/favicon.svg' className='h-6'/>
+            <img src='/favicon.svg' className='h-6' />
             OpenUI
           </Link>
 
@@ -102,9 +102,9 @@ export function Navbar() {
               {user.role === "admin" && (
                 <Link
                   to="/admin"
-                  className="hidden md:flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors border border-amber-200/60 dark:border-amber-800/40"
+                  className="hidden md:flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md text-foreground bg-muted/65 hover:bg-muted border border-border transition-colors duration-200"
                 >
-                  <ShieldCheck className="h-3 w-3" />
+                  <ShieldCheck className="h-3 w-3 text-muted-foreground" />
                   Admin
                 </Link>
               )}
@@ -113,7 +113,7 @@ export function Navbar() {
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-muted border border-border/60 hover:bg-muted/80 hover:border-border transition-colors"
                 title="Profile"
               >
-                  <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
+                <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
               </Link>
             </div>
           ) : (
