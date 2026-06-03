@@ -8,9 +8,7 @@ export default function Footer() {
           {/* Column 1: Brand/Project Info */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-extrabold text-xs">
-                UI
-              </div>
+              <img src='/favicon.svg' className='h-6' />
               <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
                 OpenUI
               </span>
@@ -67,4 +65,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+}
