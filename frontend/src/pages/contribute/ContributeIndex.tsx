@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Code2, Layers, ShieldCheck, Check, Clipboard, AlertTriangle, Cpu, Terminal, ToggleLeft, Rows, CheckSquare } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Footer from "@/components/Footer";
 
 const examplesList = [
   {
@@ -399,16 +400,22 @@ export default function ContributeIndex() {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-10">
-      {/* Top Header Banner */}
-      <div className="border-b border-border/40 pb-8 mb-8 space-y-3">
-        <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
-          Contribute to OpenUI
-        </h1>
-        <p className="text-muted-foreground text-base md:text-lg max-w-3xl leading-relaxed">
-          Create, test, and publish gorgeous, responsive UI components that seamlessly support both light and dark themes. Everything you need is now consolidated in this single page dashboard.
-        </p>
-      </div>
+    <div className="flex flex-col min-h-[calc(100vh-4rem)] w-full">
+      <div className="w-full max-w-7xl mx-auto px-6 py-10 flex-1">
+        {/* Top Header Banner */}
+        <div className="border-b border-border/40 pb-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="space-y-3">
+            <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
+              Contribute to OpenUI
+            </h1>
+            <p className="text-muted-foreground text-base md:text-lg max-w-3xl leading-relaxed">
+              Create, test, and publish gorgeous, responsive UI components that seamlessly support both light and dark themes. Everything you need is now consolidated in this single page dashboard.
+            </p>
+          </div>
+          <Button asChild className="shrink-0 text-background cursor-pointer self-start md:self-auto">
+            <Link to="/submit">Submit Component</Link>
+          </Button>
+        </div>
 
       {/* Main Grid Splitter */}
       <div className="flex flex-col lg:flex-row gap-10 items-start">
@@ -851,15 +858,8 @@ render(<PrimaryButton />);`}
         </main>
       </div>
 
-      {/* Footer Info Row */}
-      <div className="mt-12 pt-6 border-t border-border/45 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="text-xs text-muted-foreground">
-          Need support? <a href="https://github.com" target="_blank" rel="noreferrer" className="underline hover:text-foreground">Open a GitHub issue</a>
-        </div>
-        <Button variant="secondary" asChild className="cursor-pointer">
-          <Link to="/submit">Submit a Component Now</Link>
-        </Button>
       </div>
+      <Footer />
     </div>
   );
 }
